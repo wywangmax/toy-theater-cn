@@ -137,6 +137,12 @@ h3 {
 .bubble-footer button,
 .tool-actions button,
 .timer-presets button,
+.fraction-segment,
+.option-grid button,
+.match-card,
+.symmetry-cell,
+.memory-card,
+.maze-controls button,
 #newBubbleRound,
 #labNewBubbleRound,
 #clearCanvas {
@@ -160,6 +166,12 @@ h3 {
 .bubble-footer button:hover,
 .tool-actions button:hover,
 .timer-presets button:hover,
+.fraction-segment:hover,
+.option-grid button:hover,
+.match-card:hover,
+.symmetry-cell:hover,
+.memory-card:hover,
+.maze-controls button:hover,
 #newBubbleRound:hover,
 #labNewBubbleRound:hover,
 #clearCanvas:hover {
@@ -180,6 +192,12 @@ h3 {
 .hundred-cell:focus-visible,
 .piano-tool button:focus-visible,
 .swatch:focus-visible,
+.fraction-segment:focus-visible,
+.option-grid button:focus-visible,
+.match-card:focus-visible,
+.symmetry-cell:focus-visible,
+.memory-card:focus-visible,
+.maze-controls button:focus-visible,
 #newBubbleRound:focus-visible,
 #labNewBubbleRound:focus-visible,
 #clearCanvas:focus-visible {
@@ -494,27 +512,7 @@ main {
   text-align: left;
 }
 
-.game-card:disabled {
-  cursor: default;
-}
-
-.game-card.is-soon {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
-    var(--panel);
-}
-
-.game-card.is-soon .game-thumb,
-.game-card.is-soon h3,
-.game-card.is-soon p {
-  opacity: 0.72;
-}
-
-.game-card.is-soon .game-meta {
-  color: var(--coral);
-}
-
-.game-card:not(:disabled):hover {
+.game-card:hover {
   border-color: var(--ink);
   transform: translateY(-2px);
 }
@@ -609,8 +607,14 @@ main {
 
 .mini-number-stage,
 .hundred-tool,
+.fraction-tool,
+.pinyin-tool,
+.wordmatch-tool,
 .paint-tool,
+.symmetry-tool,
 .piano-tool,
+.memory-tool,
+.maze-tool,
 .timer-tool,
 .spinner-tool {
   min-width: 0;
@@ -641,7 +645,8 @@ main {
 }
 
 .segmented button,
-.timer-presets button {
+.timer-presets button,
+.maze-controls button {
   padding: 0 12px;
 }
 
@@ -673,6 +678,250 @@ main {
 .hundred-cell.picked {
   background: var(--sky);
   color: #fff;
+}
+
+.fraction-builder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(54px, 1fr));
+  overflow: hidden;
+  margin: 12px 0 18px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--ink);
+  gap: 2px;
+}
+
+.fraction-segment {
+  min-height: 86px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  color: var(--muted);
+  font-size: 22px;
+}
+
+.fraction-segment.active {
+  background: var(--sun);
+  color: var(--ink);
+}
+
+.fraction-reference {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.fraction-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.fraction-row div {
+  display: grid;
+  overflow: hidden;
+  min-height: 22px;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  gap: 2px;
+}
+
+.fraction-row span {
+  background: #fff;
+}
+
+.fraction-row span.active {
+  background: var(--leaf);
+}
+
+.train-line {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(82px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.train-line span {
+  display: grid;
+  min-height: 96px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--sun-soft);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.train-line span:nth-child(2) {
+  background: var(--sky-soft);
+}
+
+.train-line span:nth-child(3) {
+  background: var(--coral-soft);
+  font-size: 22px;
+}
+
+.option-grid,
+.match-grid,
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.option-grid button,
+.match-card,
+.memory-card {
+  min-height: 92px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.option-grid button.correct {
+  background: var(--leaf-soft);
+}
+
+.option-grid button.wrong {
+  background: var(--coral-soft);
+}
+
+.match-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.match-card {
+  min-height: 72px;
+  font-size: 24px;
+}
+
+.match-card.selected {
+  background: var(--sun);
+}
+
+.match-card.matched {
+  background: var(--leaf-soft);
+  color: var(--leaf);
+}
+
+.symmetry-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(28px, 1fr));
+  overflow: hidden;
+  margin-bottom: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--ink);
+  gap: 2px;
+}
+
+.symmetry-cell {
+  min-height: 54px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+}
+
+.symmetry-cell.active {
+  background:
+    radial-gradient(circle at 50% 42%, var(--coral) 0 12px, transparent 13px),
+    var(--sun-soft);
+}
+
+.symmetry-cell.axis-left {
+  box-shadow: inset -4px 0 0 var(--ink);
+}
+
+.symmetry-cell.axis-right {
+  box-shadow: inset 4px 0 0 var(--ink);
+}
+
+.memory-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.memory-card {
+  min-height: 86px;
+  background: var(--grape-soft);
+}
+
+.memory-card.revealed {
+  background: #fff;
+}
+
+.memory-card span {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.maze-tool {
+  display: grid;
+  gap: 14px;
+}
+
+.maze-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(42px, 1fr));
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--ink);
+  gap: 2px;
+}
+
+.maze-cell {
+  display: grid;
+  min-height: 68px;
+  place-items: center;
+  background: #fff;
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.maze-cell.wall {
+  background: var(--ink);
+}
+
+.maze-cell.goal {
+  background: var(--sun);
+}
+
+.maze-cell.player {
+  background: var(--leaf-soft);
+}
+
+.maze-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(60px, 1fr));
+  gap: 8px;
+  width: min(320px, 100%);
+  margin: 0 auto;
+}
+
+.maze-controls button[data-move="up"],
+.maze-controls button[data-move="down"] {
+  grid-column: 2;
+}
+
+.maze-controls button[data-move="left"] {
+  grid-column: 1;
+}
+
+.maze-controls button[data-move="right"] {
+  grid-column: 3;
+  grid-row: 2;
 }
 
 .paint-toolbar {
@@ -953,6 +1202,21 @@ main {
 
   .hundred-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .train-line,
+  .option-grid,
+  .match-grid,
+  .memory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .symmetry-cell {
+    min-height: 38px;
+  }
+
+  .maze-cell {
+    min-height: 54px;
   }
 
   .piano-tool {

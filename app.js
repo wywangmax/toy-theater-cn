@@ -24,7 +24,7 @@ const games = [
     category: "math",
     categoryLabel: "数学",
     level: "三年级起",
-    tool: null,
+    tool: "fraction",
     color: "#ede7ff",
     description: "用可视化色条理解二分之一、三分之一和四分之一。",
     icon: "strips",
@@ -34,7 +34,7 @@ const games = [
     category: "language",
     categoryLabel: "语文",
     level: "学前起",
-    tool: null,
+    tool: "pinyin",
     color: "#ffe4e1",
     description: "把声母、韵母和声调组合成完整读音。",
     icon: "train",
@@ -44,7 +44,7 @@ const games = [
     category: "language",
     categoryLabel: "语文",
     level: "二年级起",
-    tool: null,
+    tool: "wordmatch",
     color: "#dff6ed",
     description: "在近义词、反义词和量词之间建立连接。",
     icon: "cards",
@@ -64,7 +64,7 @@ const games = [
     category: "art",
     categoryLabel: "艺术",
     level: "二年级起",
-    tool: null,
+    tool: "symmetry",
     color: "#fff2c6",
     description: "画出左右或上下对称的图形。",
     icon: "symmetry",
@@ -84,7 +84,7 @@ const games = [
     category: "logic",
     categoryLabel: "益智",
     level: "一年级起",
-    tool: null,
+    tool: "memory",
     color: "#ffe4e1",
     description: "根据颜色和形状寻找相同组合。",
     icon: "memory",
@@ -94,7 +94,7 @@ const games = [
     category: "logic",
     categoryLabel: "益智",
     level: "二年级起",
-    tool: null,
+    tool: "maze",
     color: "#dff6ed",
     description: "用方向、顺序和策略找出路线。",
     icon: "maze",
@@ -253,11 +253,7 @@ function renderGames() {
     return matchesCategory && searchable.includes(query);
   });
 
-  const playableCount = filtered.filter((game) => game.tool).length;
-  const comingSoonCount = filtered.length - playableCount;
-  gameCount.textContent = filtered.length
-    ? `${playableCount} 个可玩 / ${comingSoonCount} 个待上线`
-    : "0 个结果";
+  gameCount.textContent = filtered.length ? `${filtered.length} 个可玩游戏` : "0 个结果";
 
   if (!filtered.length) {
     gameGrid.innerHTML = `
@@ -273,10 +269,9 @@ function renderGames() {
     .map(
       (game) => `
         <button
-          class="game-card ${game.tool ? "" : "is-soon"}"
+          class="game-card"
           type="button"
-          data-tool="${game.tool || ""}"
-          ${game.tool ? "" : "disabled aria-disabled=\"true\""}
+          data-tool="${game.tool}"
         >
           <span class="game-thumb" style="background:${game.color}">
             ${svgIcons[game.icon]()}
@@ -285,14 +280,14 @@ function renderGames() {
           <p>${game.description}</p>
           <span class="game-meta">
             <span>${game.categoryLabel}</span>
-            <span>${game.tool ? game.level : "即将上线"}</span>
+            <span>${game.level}</span>
           </span>
         </button>
       `,
     )
     .join("");
 
-  document.querySelectorAll(".game-card:not(:disabled)").forEach((card) => {
+  document.querySelectorAll(".game-card").forEach((card) => {
     card.addEventListener("click", () => {
       activateTool(card.dataset.tool);
       document.querySelector("#playLab").scrollIntoView({ behavior: "smooth" });
@@ -439,6 +434,12 @@ document.querySelectorAll("[data-tool-link]").forEach((link) => {
 
 function activateToolFromHash() {
   const hashToolMap = {
+    "#fraction": "fraction",
+    "#pinyin": "pinyin",
+    "#wordmatch": "wordmatch",
+    "#symmetry": "symmetry",
+    "#memory": "memory",
+    "#maze": "maze",
     "#teacherTools": "timer",
     "#timer": "timer",
   };
@@ -492,6 +493,345 @@ modeButtons.forEach((button) => {
 });
 
 renderHundredGrid();
+
+const fractionBuilder = document.querySelector("#fractionBuilder");
+const fractionReference = document.querySelector("#fractionReference");
+const fractionStatus = document.querySelector("#fractionStatus");
+const denominatorButtons = document.querySelectorAll("[data-denominator]");
+const fractionState = {
+  denominator: 2,
+  filled: 1,
+};
+
+function fractionText(numerator, denominator) {
+  return `${numerator}/${denominator}`;
+}
+
+function renderFractionTool() {
+  fractionBuilder.innerHTML = Array.from({ length: fractionState.denominator }, (_, index) => {
+    const active = index < fractionState.filled ? "active" : "";
+    return `<button class="fraction-segment ${active}" type="button" data-segment="${index}">${index + 1}</button>`;
+  }).join("");
+
+  fractionBuilder.querySelectorAll(".fraction-segment").forEach((segment) => {
+    segment.addEventListener("click", () => {
+      fractionState.filled = Number(segment.dataset.segment) + 1;
+      renderFractionTool();
+    });
+  });
+
+  const references = [2, 3, 4, 6, 8];
+  fractionReference.innerHTML = references
+    .map((denominator) => {
+      const cells = Array.from({ length: denominator }, (_, index) => {
+        const active = index < Math.ceil((fractionState.filled / fractionState.denominator) * denominator);
+        return `<span class="${active ? "active" : ""}"></span>`;
+      }).join("");
+      return `<div class="fraction-row"><strong>1/${denominator}</strong><div>${cells}</div></div>`;
+    })
+    .join("");
+
+  fractionStatus.textContent = `当前：${fractionText(fractionState.filled, fractionState.denominator)}`;
+}
+
+denominatorButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    fractionState.denominator = Number(button.dataset.denominator);
+    fractionState.filled = 1;
+    denominatorButtons.forEach((item) => item.classList.toggle("active", item === button));
+    renderFractionTool();
+  });
+});
+
+document.querySelector("#resetFraction").addEventListener("click", () => {
+  fractionState.filled = 1;
+  renderFractionTool();
+});
+
+renderFractionTool();
+
+const pinyinQuestions = [
+  { initial: "b", final: "ao", tone: "一声", answer: "包", choices: ["包", "跑", "猫", "鸟"], word: "书包" },
+  { initial: "m", final: "a", tone: "一声", answer: "妈", choices: ["妈", "马", "木", "目"], word: "妈妈" },
+  { initial: "h", final: "ua", tone: "一声", answer: "花", choices: ["画", "话", "花", "瓜"], word: "花朵" },
+  { initial: "sh", final: "ui", tone: "三声", answer: "水", choices: ["水", "睡", "说", "谁"], word: "喝水" },
+  { initial: "x", final: "ue", tone: "二声", answer: "学", choices: ["雪", "学", "月", "写"], word: "学习" },
+];
+let pinyinIndex = 0;
+let pinyinScore = 0;
+
+function renderPinyinQuestion() {
+  const question = pinyinQuestions[pinyinIndex];
+  document.querySelector("#pinyinInitial").textContent = question.initial;
+  document.querySelector("#pinyinFinal").textContent = question.final;
+  document.querySelector("#pinyinTone").textContent = question.tone;
+  document.querySelector("#pinyinChoices").innerHTML = shuffle(question.choices)
+    .map((choice) => `<button type="button" data-choice="${choice}">${choice}</button>`)
+    .join("");
+  document.querySelector("#pinyinStatus").textContent = `选出正确汉字，已答对 ${pinyinScore} 题`;
+
+  document.querySelectorAll("#pinyinChoices button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const correct = button.dataset.choice === question.answer;
+      button.classList.add(correct ? "correct" : "wrong");
+      document.querySelector("#pinyinStatus").textContent = correct
+        ? `答对了：${question.word}`
+        : `再想想：${question.initial}${question.final}`;
+      if (correct) {
+        pinyinScore += 1;
+        window.setTimeout(nextPinyinQuestion, 600);
+      }
+    });
+  });
+}
+
+function nextPinyinQuestion() {
+  pinyinIndex = (pinyinIndex + 1) % pinyinQuestions.length;
+  renderPinyinQuestion();
+}
+
+document.querySelector("#nextPinyin").addEventListener("click", nextPinyinQuestion);
+renderPinyinQuestion();
+
+const wordPairs = [
+  ["大", "小"],
+  ["快", "慢"],
+  ["高", "低"],
+  ["冷", "热"],
+  ["开", "关"],
+  ["前", "后"],
+];
+let wordCards = [];
+let selectedWords = [];
+let matchedPairs = new Set();
+let wordMatchLocked = false;
+
+function resetWordMatch() {
+  wordCards = shuffle(
+    wordPairs.flatMap((pair, pairId) => pair.map((word) => ({ word, pairId }))),
+  );
+  selectedWords = [];
+  matchedPairs = new Set();
+  wordMatchLocked = false;
+  renderWordMatch();
+}
+
+function renderWordMatch() {
+  document.querySelector("#wordMatchGrid").innerHTML = wordCards
+    .map((card, index) => {
+      const selected = selectedWords.includes(index);
+      const matched = matchedPairs.has(card.pairId);
+      return `
+        <button class="match-card ${selected ? "selected" : ""} ${matched ? "matched" : ""}" type="button" data-index="${index}">
+          ${card.word}
+        </button>
+      `;
+    })
+    .join("");
+  document.querySelector("#wordMatchStatus").textContent = `已配对：${matchedPairs.size}/${wordPairs.length}`;
+
+  document.querySelectorAll(".match-card").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.index);
+      const card = wordCards[index];
+      if (wordMatchLocked || matchedPairs.has(card.pairId) || selectedWords.includes(index)) return;
+
+      selectedWords.push(index);
+      renderWordMatch();
+
+      if (selectedWords.length === 2) {
+        const [first, second] = selectedWords.map((item) => wordCards[item]);
+        if (first.pairId === second.pairId) {
+          matchedPairs.add(first.pairId);
+          selectedWords = [];
+          renderWordMatch();
+        } else {
+          wordMatchLocked = true;
+          document.querySelector("#wordMatchStatus").textContent = "不是一对，再试一次";
+          window.setTimeout(() => {
+            selectedWords = [];
+            wordMatchLocked = false;
+            renderWordMatch();
+          }, 700);
+        }
+      }
+    });
+  });
+}
+
+document.querySelector("#resetWordMatch").addEventListener("click", resetWordMatch);
+resetWordMatch();
+
+const symmetryGrid = document.querySelector("#symmetryGrid");
+const symmetryCells = new Set();
+
+function renderSymmetryGrid() {
+  symmetryGrid.innerHTML = Array.from({ length: 64 }, (_, index) => {
+    const row = Math.floor(index / 8);
+    const col = index % 8;
+    const mirrorCol = col < 4 ? col : 7 - col;
+    const active = symmetryCells.has(`${row}-${mirrorCol}`);
+    return `<button class="symmetry-cell ${active ? "active" : ""} ${col === 3 ? "axis-left" : ""} ${col === 4 ? "axis-right" : ""}" type="button" data-row="${row}" data-col="${col}"></button>`;
+  }).join("");
+
+  symmetryGrid.querySelectorAll(".symmetry-cell").forEach((cell) => {
+    cell.addEventListener("click", () => {
+      const row = Number(cell.dataset.row);
+      const col = Number(cell.dataset.col);
+      const mirrorCol = col < 4 ? col : 7 - col;
+      const key = `${row}-${mirrorCol}`;
+      if (symmetryCells.has(key)) {
+        symmetryCells.delete(key);
+      } else {
+        symmetryCells.add(key);
+      }
+      renderSymmetryGrid();
+    });
+  });
+
+  document.querySelector("#symmetryStatus").textContent = `已点亮 ${symmetryCells.size} 对`;
+}
+
+document.querySelector("#clearSymmetry").addEventListener("click", () => {
+  symmetryCells.clear();
+  renderSymmetryGrid();
+});
+
+renderSymmetryGrid();
+
+const memoryItems = [
+  { key: "sun", label: "黄圆", symbol: "●", color: "#ffd166" },
+  { key: "sky", label: "蓝方", symbol: "■", color: "#1f7a8c" },
+  { key: "coral", label: "红星", symbol: "★", color: "#f25c54" },
+  { key: "leaf", label: "绿菱", symbol: "◆", color: "#2a9d8f" },
+  { key: "grape", label: "紫三角", symbol: "▲", color: "#7c3aed" },
+  { key: "ink", label: "黑月", symbol: "◐", color: "#17202a" },
+];
+let memoryDeck = [];
+let memoryRevealed = [];
+let memoryMatched = new Set();
+let memoryLocked = false;
+
+function resetMemory() {
+  memoryDeck = shuffle([...memoryItems, ...memoryItems]);
+  memoryRevealed = [];
+  memoryMatched = new Set();
+  memoryLocked = false;
+  renderMemory();
+}
+
+function renderMemory() {
+  document.querySelector("#memoryGrid").innerHTML = memoryDeck
+    .map((card, index) => {
+      const visible = memoryRevealed.includes(index) || memoryMatched.has(card.key);
+      return `
+        <button class="memory-card ${visible ? "revealed" : ""}" type="button" data-index="${index}" aria-label="${visible ? card.label : "未翻开的卡片"}">
+          <span style="color:${card.color}">${visible ? card.symbol : "?"}</span>
+        </button>
+      `;
+    })
+    .join("");
+  document.querySelector("#memoryStatus").textContent = `已找到：${memoryMatched.size}/${memoryItems.length}`;
+
+  document.querySelectorAll(".memory-card").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.index);
+      const card = memoryDeck[index];
+      if (memoryLocked || memoryMatched.has(card.key) || memoryRevealed.includes(index)) return;
+      memoryRevealed.push(index);
+      renderMemory();
+
+      if (memoryRevealed.length === 2) {
+        const [first, second] = memoryRevealed.map((item) => memoryDeck[item]);
+        if (first.key === second.key) {
+          memoryMatched.add(first.key);
+          memoryRevealed = [];
+          renderMemory();
+        } else {
+          memoryLocked = true;
+          window.setTimeout(() => {
+            memoryRevealed = [];
+            memoryLocked = false;
+            renderMemory();
+          }, 760);
+        }
+      }
+    });
+  });
+}
+
+document.querySelector("#resetMemory").addEventListener("click", resetMemory);
+resetMemory();
+
+const mazeLayout = [
+  [0, 0, 0, 1, 0],
+  [1, 1, 0, 1, 0],
+  [0, 0, 0, 0, 0],
+  [0, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0],
+];
+const mazeGoal = { row: 4, col: 4 };
+const mazeStart = { row: 0, col: 0 };
+let mazePlayer = { ...mazeStart };
+let mazeSteps = 0;
+
+function renderMaze() {
+  document.querySelector("#mazeGrid").innerHTML = mazeLayout
+    .flatMap((row, rowIndex) =>
+      row.map((cell, colIndex) => {
+        const isPlayer = mazePlayer.row === rowIndex && mazePlayer.col === colIndex;
+        const isGoal = mazeGoal.row === rowIndex && mazeGoal.col === colIndex;
+        return `
+          <span class="maze-cell ${cell ? "wall" : ""} ${isGoal ? "goal" : ""} ${isPlayer ? "player" : ""}">
+            ${isPlayer ? "我" : isGoal ? "★" : ""}
+          </span>
+        `;
+      }),
+    )
+    .join("");
+
+  const finished = mazePlayer.row === mazeGoal.row && mazePlayer.col === mazeGoal.col;
+  document.querySelector("#mazeStatus").textContent = finished ? `到达终点，用了 ${mazeSteps} 步` : `已走 ${mazeSteps} 步`;
+}
+
+function moveMaze(direction) {
+  const deltas = {
+    up: [-1, 0],
+    down: [1, 0],
+    left: [0, -1],
+    right: [0, 1],
+  };
+  const [rowDelta, colDelta] = deltas[direction];
+  const next = {
+    row: mazePlayer.row + rowDelta,
+    col: mazePlayer.col + colDelta,
+  };
+  if (
+    next.row < 0 ||
+    next.row >= mazeLayout.length ||
+    next.col < 0 ||
+    next.col >= mazeLayout[0].length ||
+    mazeLayout[next.row][next.col] === 1
+  ) {
+    document.querySelector("#mazeStatus").textContent = "这里走不通，换个方向";
+    return;
+  }
+  mazePlayer = next;
+  mazeSteps += 1;
+  renderMaze();
+}
+
+document.querySelectorAll("[data-move]").forEach((button) => {
+  button.addEventListener("click", () => moveMaze(button.dataset.move));
+});
+
+document.querySelector("#resetMaze").addEventListener("click", () => {
+  mazePlayer = { ...mazeStart };
+  mazeSteps = 0;
+  renderMaze();
+});
+
+renderMaze();
 
 const canvas = document.querySelector("#paintCanvas");
 const ctx = canvas.getContext("2d");

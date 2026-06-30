@@ -122,8 +122,14 @@
           <div class="lab-tabs" aria-label="选择试玩工具">
             <button class="lab-tab active" type="button" data-tool="bubble">数学泡泡</button>
             <button class="lab-tab" type="button" data-tool="hundred">百数表</button>
+            <button class="lab-tab" type="button" data-tool="fraction">分数条</button>
+            <button class="lab-tab" type="button" data-tool="pinyin">拼音火车</button>
+            <button class="lab-tab" type="button" data-tool="wordmatch">词语配对</button>
             <button class="lab-tab" type="button" data-tool="paint">画板</button>
+            <button class="lab-tab" type="button" data-tool="symmetry">对称花园</button>
             <button class="lab-tab" type="button" data-tool="piano">节奏琴</button>
+            <button class="lab-tab" type="button" data-tool="memory">图形记忆</button>
+            <button class="lab-tab" type="button" data-tool="maze">迷宫路径</button>
             <button class="lab-tab" type="button" data-tool="timer">计时器</button>
             <button class="lab-tab" type="button" data-tool="spinner">转盘</button>
           </div>
@@ -163,6 +169,61 @@
           </div>
         </div>
 
+        <div class="tool-panel" id="tool-fraction" data-tool-panel="fraction">
+          <div class="tool-copy">
+            <h3>分数条</h3>
+            <p>点亮分数条上的小格，观察不同分数的大小。</p>
+          </div>
+          <div class="fraction-tool">
+            <div class="segmented" aria-label="选择分母">
+              <button class="active" type="button" data-denominator="2">二分</button>
+              <button type="button" data-denominator="3">三分</button>
+              <button type="button" data-denominator="4">四分</button>
+              <button type="button" data-denominator="6">六分</button>
+              <button type="button" data-denominator="8">八分</button>
+            </div>
+            <div class="fraction-builder" id="fractionBuilder" aria-label="分数条选择区"></div>
+            <div class="fraction-reference" id="fractionReference" aria-label="分数参考条"></div>
+            <div class="tool-actions">
+              <strong id="fractionStatus" aria-live="polite">当前：1/2</strong>
+              <button type="button" id="resetFraction">清空</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-pinyin" data-tool-panel="pinyin">
+          <div class="tool-copy">
+            <h3>拼音火车</h3>
+            <p>看车厢里的声母、韵母和声调，选出正确汉字。</p>
+          </div>
+          <div class="pinyin-tool">
+            <div class="train-line" aria-label="拼音火车">
+              <span id="pinyinInitial">b</span>
+              <span id="pinyinFinal">ao</span>
+              <span id="pinyinTone">一声</span>
+            </div>
+            <div class="option-grid" id="pinyinChoices" aria-label="汉字选项"></div>
+            <div class="tool-actions">
+              <strong id="pinyinStatus" aria-live="polite">选出正确汉字</strong>
+              <button type="button" id="nextPinyin">下一题</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-wordmatch" data-tool-panel="wordmatch">
+          <div class="tool-copy">
+            <h3>词语配对</h3>
+            <p>每次翻两个词，找到它们的反义词搭档。</p>
+          </div>
+          <div class="wordmatch-tool">
+            <div class="match-grid" id="wordMatchGrid" aria-label="词语配对卡片"></div>
+            <div class="tool-actions">
+              <strong id="wordMatchStatus" aria-live="polite">已配对：0/6</strong>
+              <button type="button" id="resetWordMatch">重来</button>
+            </div>
+          </div>
+        </div>
+
         <div class="tool-panel" id="tool-paint" data-tool-panel="paint">
           <div class="tool-copy">
             <h3>自由画板</h3>
@@ -182,6 +243,20 @@
           </div>
         </div>
 
+        <div class="tool-panel" id="tool-symmetry" data-tool-panel="symmetry">
+          <div class="tool-copy">
+            <h3>对称花园</h3>
+            <p>点左边的格子，右边会自动长出对称图案。</p>
+          </div>
+          <div class="symmetry-tool">
+            <div class="symmetry-grid" id="symmetryGrid" aria-label="对称图案格子"></div>
+            <div class="tool-actions">
+              <strong id="symmetryStatus" aria-live="polite">已点亮 0 对</strong>
+              <button type="button" id="clearSymmetry">清空</button>
+            </div>
+          </div>
+        </div>
+
         <div class="tool-panel" id="tool-piano" data-tool-panel="piano">
           <div class="tool-copy">
             <h3>节奏琴</h3>
@@ -195,6 +270,40 @@
             <button type="button" data-note="392.00">sol</button>
             <button type="button" data-note="440.00">la</button>
             <button type="button" data-note="493.88">si</button>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-memory" data-tool-panel="memory">
+          <div class="tool-copy">
+            <h3>图形记忆</h3>
+            <p>翻开卡片，找出相同颜色和形状的组合。</p>
+          </div>
+          <div class="memory-tool">
+            <div class="memory-grid" id="memoryGrid" aria-label="图形记忆卡片"></div>
+            <div class="tool-actions">
+              <strong id="memoryStatus" aria-live="polite">已找到：0/6</strong>
+              <button type="button" id="resetMemory">重新洗牌</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-maze" data-tool-panel="maze">
+          <div class="tool-copy">
+            <h3>迷宫路径</h3>
+            <p>用方向按钮走到星星终点，练习顺序和空间判断。</p>
+          </div>
+          <div class="maze-tool">
+            <div class="maze-grid" id="mazeGrid" aria-label="迷宫棋盘"></div>
+            <div class="maze-controls" aria-label="方向控制">
+              <button type="button" data-move="up">上</button>
+              <button type="button" data-move="left">左</button>
+              <button type="button" data-move="right">右</button>
+              <button type="button" data-move="down">下</button>
+            </div>
+            <div class="tool-actions">
+              <strong id="mazeStatus" aria-live="polite">从起点出发</strong>
+              <button type="button" id="resetMaze">回到起点</button>
+            </div>
           </div>
         </div>
 
