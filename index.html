@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>玩具学堂 | 中文儿童互动学习游戏</title>
+    <meta
+      name="description"
+      content="面向小学阶段孩子和课堂的中文互动学习游戏网站原型，包含数学、语文、艺术、音乐、益智和教师工具。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="玩具学堂首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <rect x="8" y="12" width="20" height="20" rx="5"></rect>
+            <rect x="36" y="12" width="20" height="20" rx="5"></rect>
+            <rect x="22" y="34" width="20" height="20" rx="5"></rect>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>玩具学堂</strong>
+          <small>中文互动学习游戏</small>
+        </span>
+      </a>
+
+      <nav class="top-nav" aria-label="主导航">
+        <a href="#games">游戏架</a>
+        <a href="#playLab">试玩台</a>
+        <a href="#teacherTools">教师工具</a>
+      </nav>
+
+      <form class="header-search" role="search">
+        <label for="siteSearch">搜索游戏</label>
+        <input id="siteSearch" type="search" placeholder="数学、拼音、画画" />
+      </form>
+    </header>
+
+    <main id="top">
+      <section class="hero-band" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">K-5 中文学习</p>
+          <h1 id="heroTitle">把课堂里的练习变成能玩的小游戏。</h1>
+          <p>
+            数学、语文、艺术、音乐和课堂工具集中在一个中文入口里，适合投屏、平板和手机使用。
+          </p>
+          <div class="hero-actions" aria-label="快速入口">
+            <a href="#games">浏览游戏</a>
+            <a href="#playLab">打开试玩台</a>
+          </div>
+        </div>
+
+        <section class="number-stage" aria-labelledby="numberHeroTitle">
+          <div class="stage-topline">
+            <div>
+              <p class="eyebrow">今日游戏</p>
+              <h2 id="numberHeroTitle">数学泡泡</h2>
+            </div>
+            <div class="score-chip">
+              <span>星星</span>
+              <strong id="bubbleScore">0</strong>
+            </div>
+          </div>
+
+          <div class="target-panel">
+            <span>目标数</span>
+            <strong id="bubbleTarget">10</strong>
+          </div>
+
+          <div class="bubble-board" id="bubbleBoard" aria-label="数学泡泡数字选项"></div>
+
+          <div class="bubble-footer">
+            <span id="bubbleStatus">选中的和：0</span>
+            <button type="button" id="newBubbleRound">换一题</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="category-strip" aria-label="学习分类">
+        <button class="filter-chip active" type="button" data-filter="all">全部</button>
+        <button class="filter-chip" type="button" data-filter="math">数学</button>
+        <button class="filter-chip" type="button" data-filter="language">语文</button>
+        <button class="filter-chip" type="button" data-filter="art">艺术</button>
+        <button class="filter-chip" type="button" data-filter="music">音乐</button>
+        <button class="filter-chip" type="button" data-filter="logic">益智</button>
+        <button class="filter-chip" type="button" data-filter="teacher">教师工具</button>
+      </section>
+
+      <section class="games-section" id="games" aria-labelledby="gamesTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Game Shelf</p>
+            <h2 id="gamesTitle">中文游戏架</h2>
+          </div>
+          <p id="gameCount">12 个游戏</p>
+        </div>
+        <div class="game-grid" id="gameGrid"></div>
+      </section>
+
+      <section class="lab-section" id="playLab" aria-labelledby="labTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Play Lab</p>
+            <h2 id="labTitle">试玩台</h2>
+          </div>
+          <div class="lab-tabs" aria-label="选择试玩工具">
+            <button class="lab-tab active" type="button" data-tool="bubble">数学泡泡</button>
+            <button class="lab-tab" type="button" data-tool="hundred">百数表</button>
+            <button class="lab-tab" type="button" data-tool="paint">画板</button>
+            <button class="lab-tab" type="button" data-tool="piano">节奏琴</button>
+            <button class="lab-tab" type="button" data-tool="timer">计时器</button>
+            <button class="lab-tab" type="button" data-tool="spinner">转盘</button>
+          </div>
+        </div>
+
+        <div class="tool-panel active" id="tool-bubble" data-tool-panel="bubble">
+          <div class="tool-copy">
+            <h3>数学泡泡</h3>
+            <p>凑出目标数，连续答对会自动进入下一题。</p>
+          </div>
+          <div class="mini-number-stage">
+            <div class="mini-target">
+              <span>目标</span>
+              <strong id="labBubbleTarget">10</strong>
+            </div>
+            <div class="bubble-board compact" id="labBubbleBoard"></div>
+            <div class="tool-actions">
+              <span id="labBubbleStatus">选中的和：0</span>
+              <button type="button" id="labNewBubbleRound">换一题</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-hundred" data-tool-panel="hundred">
+          <div class="tool-copy">
+            <h3>百数表</h3>
+            <p>用高亮模式观察数字规律。</p>
+          </div>
+          <div class="hundred-tool">
+            <div class="segmented" aria-label="百数表模式">
+              <button class="active" type="button" data-mode="all">全部</button>
+              <button type="button" data-mode="even">偶数</button>
+              <button type="button" data-mode="five">5 的倍数</button>
+              <button type="button" data-mode="prime">质数</button>
+            </div>
+            <div class="hundred-grid" id="hundredGrid" aria-label="1 到 100 百数表"></div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-paint" data-tool-panel="paint">
+          <div class="tool-copy">
+            <h3>自由画板</h3>
+            <p>适合做对称、图案和颜色练习。</p>
+          </div>
+          <div class="paint-tool">
+            <div class="paint-toolbar" aria-label="画板工具">
+              <button class="swatch active" type="button" data-color="#1f7a8c" aria-label="蓝绿色"></button>
+              <button class="swatch" type="button" data-color="#f25c54" aria-label="珊瑚红"></button>
+              <button class="swatch" type="button" data-color="#ffd166" aria-label="黄色"></button>
+              <button class="swatch" type="button" data-color="#7c3aed" aria-label="紫色"></button>
+              <label class="brush-label" for="brushSize">笔刷</label>
+              <input id="brushSize" type="range" min="2" max="22" value="8" />
+              <button type="button" id="clearCanvas">清空</button>
+            </div>
+            <canvas id="paintCanvas" width="920" height="460" aria-label="自由绘画画布"></canvas>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-piano" data-tool-panel="piano">
+          <div class="tool-copy">
+            <h3>节奏琴</h3>
+            <p>用七个音阶做节奏和听辨练习。</p>
+          </div>
+          <div class="piano-tool" aria-label="节奏琴">
+            <button type="button" data-note="261.63">do</button>
+            <button type="button" data-note="293.66">re</button>
+            <button type="button" data-note="329.63">mi</button>
+            <button type="button" data-note="349.23">fa</button>
+            <button type="button" data-note="392.00">sol</button>
+            <button type="button" data-note="440.00">la</button>
+            <button type="button" data-note="493.88">si</button>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-timer" data-tool-panel="timer">
+          <div class="tool-copy">
+            <h3>课堂计时器</h3>
+            <p>适合小组讨论、口算和收纳时间。</p>
+          </div>
+          <div class="timer-tool" id="teacherTools">
+            <div class="timer-display" id="timerDisplay">03:00</div>
+            <div class="timer-presets" aria-label="计时预设">
+              <button type="button" data-minutes="1">1 分钟</button>
+              <button class="active" type="button" data-minutes="3">3 分钟</button>
+              <button type="button" data-minutes="5">5 分钟</button>
+            </div>
+            <div class="tool-actions">
+              <button type="button" id="startTimer">开始</button>
+              <button type="button" id="pauseTimer">暂停</button>
+              <button type="button" id="resetTimer">重置</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel" id="tool-spinner" data-tool-panel="spinner">
+          <div class="tool-copy">
+            <h3>课堂转盘</h3>
+            <p>随机选择练习主题或小组任务。</p>
+          </div>
+          <div class="spinner-tool">
+            <div class="spinner-wheel" id="spinnerWheel" aria-label="课堂转盘">
+              <span>口算</span>
+              <span>拼读</span>
+              <span>画图</span>
+              <span>讲述</span>
+            </div>
+            <div class="tool-actions">
+              <strong id="spinnerResult">准备</strong>
+              <button type="button" id="spinButton">转一下</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>玩具学堂原型 · 可继续扩展为完整中文儿童教育游戏库</p>
+      <a href="#top">回到顶部</a>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
