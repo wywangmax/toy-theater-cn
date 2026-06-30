@@ -6,8 +6,22 @@
     <title>玩具学堂 | 中文儿童互动学习游戏</title>
     <meta
       name="description"
-      content="面向小学阶段孩子和课堂的中文互动学习游戏网站原型，包含数学、语文、艺术、音乐、益智和教师工具。"
+      content="面向小学阶段孩子和课堂的中文互动学习游戏网站，包含数学、语文、艺术、音乐、益智和教师工具。"
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="玩具学堂 | 中文儿童互动学习游戏" />
+    <meta
+      property="og:description"
+      content="数学、语文、艺术、音乐和课堂工具集中在一个中文互动学习入口里。"
+    />
+    <meta property="og:url" content="https://wywangmax.github.io/toy-theater-cn/" />
+    <meta
+      property="og:image"
+      content="https://wywangmax.github.io/toy-theater-cn/share-card.svg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#ffd166" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -29,7 +43,7 @@
       <nav class="top-nav" aria-label="主导航">
         <a href="#games">游戏架</a>
         <a href="#playLab">试玩台</a>
-        <a href="#teacherTools">教师工具</a>
+        <a href="#playLab" data-tool-link="timer">教师工具</a>
       </nav>
 
       <form class="header-search" role="search">
@@ -41,7 +55,7 @@
     <main id="top">
       <section class="hero-band" aria-labelledby="heroTitle">
         <div class="hero-copy">
-          <p class="eyebrow">K-5 中文学习</p>
+          <p class="eyebrow">小学中文学习</p>
           <h1 id="heroTitle">把课堂里的练习变成能玩的小游戏。</h1>
           <p>
             数学、语文、艺术、音乐和课堂工具集中在一个中文入口里，适合投屏、平板和手机使用。
@@ -55,7 +69,7 @@
         <section class="number-stage" aria-labelledby="numberHeroTitle">
           <div class="stage-topline">
             <div>
-              <p class="eyebrow">今日游戏</p>
+            <p class="eyebrow">今日游戏</p>
               <h2 id="numberHeroTitle">数学泡泡</h2>
             </div>
             <div class="score-chip">
@@ -72,7 +86,7 @@
           <div class="bubble-board" id="bubbleBoard" aria-label="数学泡泡数字选项"></div>
 
           <div class="bubble-footer">
-            <span id="bubbleStatus">选中的和：0</span>
+            <span id="bubbleStatus" aria-live="polite">选中的和：0</span>
             <button type="button" id="newBubbleRound">换一题</button>
           </div>
         </section>
@@ -91,10 +105,10 @@
       <section class="games-section" id="games" aria-labelledby="gamesTitle">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Game Shelf</p>
+            <p class="eyebrow">游戏架</p>
             <h2 id="gamesTitle">中文游戏架</h2>
           </div>
-          <p id="gameCount">12 个游戏</p>
+          <p id="gameCount" aria-live="polite">12 个游戏</p>
         </div>
         <div class="game-grid" id="gameGrid"></div>
       </section>
@@ -102,7 +116,7 @@
       <section class="lab-section" id="playLab" aria-labelledby="labTitle">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Play Lab</p>
+            <p class="eyebrow">试玩台</p>
             <h2 id="labTitle">试玩台</h2>
           </div>
           <div class="lab-tabs" aria-label="选择试玩工具">
@@ -127,7 +141,7 @@
             </div>
             <div class="bubble-board compact" id="labBubbleBoard"></div>
             <div class="tool-actions">
-              <span id="labBubbleStatus">选中的和：0</span>
+              <span id="labBubbleStatus" aria-live="polite">选中的和：0</span>
               <button type="button" id="labNewBubbleRound">换一题</button>
             </div>
           </div>
@@ -190,7 +204,7 @@
             <p>适合小组讨论、口算和收纳时间。</p>
           </div>
           <div class="timer-tool" id="teacherTools">
-            <div class="timer-display" id="timerDisplay">03:00</div>
+            <div class="timer-display" id="timerDisplay" aria-live="polite">03:00</div>
             <div class="timer-presets" aria-label="计时预设">
               <button type="button" data-minutes="1">1 分钟</button>
               <button class="active" type="button" data-minutes="3">3 分钟</button>
@@ -217,7 +231,7 @@
               <span>讲述</span>
             </div>
             <div class="tool-actions">
-              <strong id="spinnerResult">准备</strong>
+              <strong id="spinnerResult" aria-live="polite">准备</strong>
               <button type="button" id="spinButton">转一下</button>
             </div>
           </div>
@@ -226,7 +240,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>玩具学堂原型 · 可继续扩展为完整中文儿童教育游戏库</p>
+      <p>玩具学堂 · 中文儿童互动学习游戏库</p>
       <a href="#top">回到顶部</a>
     </footer>
 

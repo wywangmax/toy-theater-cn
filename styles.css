@@ -167,6 +167,26 @@ h3 {
   transform: translateY(-1px);
 }
 
+.top-nav a:focus-visible,
+.hero-actions a:focus-visible,
+.filter-chip:focus-visible,
+.lab-tab:focus-visible,
+.segmented button:focus-visible,
+.bubble-footer button:focus-visible,
+.tool-actions button:focus-visible,
+.timer-presets button:focus-visible,
+.game-card:focus-visible,
+.bubble-button:focus-visible,
+.hundred-cell:focus-visible,
+.piano-tool button:focus-visible,
+.swatch:focus-visible,
+#newBubbleRound:focus-visible,
+#labNewBubbleRound:focus-visible,
+#clearCanvas:focus-visible {
+  outline: 4px solid rgba(242, 92, 84, 0.35);
+  outline-offset: 3px;
+}
+
 .header-search {
   position: relative;
 }
@@ -474,9 +494,48 @@ main {
   text-align: left;
 }
 
-.game-card:hover {
+.game-card:disabled {
+  cursor: default;
+}
+
+.game-card.is-soon {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
+    var(--panel);
+}
+
+.game-card.is-soon .game-thumb,
+.game-card.is-soon h3,
+.game-card.is-soon p {
+  opacity: 0.72;
+}
+
+.game-card.is-soon .game-meta {
+  color: var(--coral);
+}
+
+.game-card:not(:disabled):hover {
   border-color: var(--ink);
   transform: translateY(-2px);
+}
+
+.empty-state {
+  display: grid;
+  min-height: 220px;
+  grid-column: 1 / -1;
+  place-items: center;
+  gap: 8px;
+  padding: 28px;
+  border: 2px dashed var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-state strong {
+  color: var(--ink);
+  font-size: 22px;
 }
 
 .game-thumb {

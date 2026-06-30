@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fbfaf3"/>
+  <g opacity="0.8">
+    <path d="M0 80h1200M0 160h1200M0 240h1200M0 320h1200M0 400h1200M0 480h1200M0 560h1200" stroke="#d9dde7" stroke-width="2"/>
+    <path d="M80 0v630M160 0v630M240 0v630M320 0v630M400 0v630M480 0v630M560 0v630M640 0v630M720 0v630M800 0v630M880 0v630M960 0v630M1040 0v630M1120 0v630" stroke="#d9dde7" stroke-width="2"/>
+  </g>
+  <rect x="92" y="96" width="112" height="112" rx="18" fill="#ffd166" stroke="#17202a" stroke-width="8"/>
+  <rect x="124" y="128" width="22" height="22" rx="5" fill="#17202a"/>
+  <rect x="162" y="128" width="22" height="22" rx="5" fill="#17202a"/>
+  <rect x="143" y="166" width="22" height="22" rx="5" fill="#17202a"/>
+  <text x="232" y="140" fill="#17202a" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="44" font-weight="900">玩具学堂</text>
+  <text x="232" y="190" fill="#5d6674" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="28" font-weight="700">中文儿童互动学习游戏库</text>
+  <text x="92" y="346" fill="#17202a" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="74" font-weight="900">把课堂里的练习</text>
+  <text x="92" y="430" fill="#17202a" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="74" font-weight="900">变成能玩的小游戏。</text>
+  <rect x="742" y="106" width="330" height="330" rx="22" fill="#ffffff" stroke="#17202a" stroke-width="8"/>
+  <circle cx="840" cy="246" r="64" fill="#ffd166" stroke="#17202a" stroke-width="8"/>
+  <circle cx="940" cy="204" r="48" fill="#ffffff" stroke="#17202a" stroke-width="8"/>
+  <circle cx="982" cy="304" r="62" fill="#f25c54" stroke="#17202a" stroke-width="8"/>
+  <text x="840" y="266" text-anchor="middle" fill="#17202a" font-family="Arial, sans-serif" font-size="58" font-weight="900">7</text>
+  <text x="940" y="221" text-anchor="middle" fill="#17202a" font-family="Arial, sans-serif" font-size="44" font-weight="900">3</text>
+  <text x="982" y="326" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="50" font-weight="900">10</text>
+  <rect x="92" y="496" width="178" height="58" rx="8" fill="#17202a"/>
+  <text x="181" y="535" text-anchor="middle" fill="#ffffff" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="25" font-weight="900">立即体验</text>
+  <rect x="292" y="496" width="256" height="58" rx="8" fill="#ffffff" stroke="#17202a" stroke-width="4"/>
+  <text x="420" y="535" text-anchor="middle" fill="#17202a" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="25" font-weight="900">数学 · 语文 · 艺术</text>
+</svg>

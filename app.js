@@ -24,7 +24,7 @@ const games = [
     category: "math",
     categoryLabel: "数学",
     level: "三年级起",
-    tool: "hundred",
+    tool: null,
     color: "#ede7ff",
     description: "用可视化色条理解二分之一、三分之一和四分之一。",
     icon: "strips",
@@ -34,7 +34,7 @@ const games = [
     category: "language",
     categoryLabel: "语文",
     level: "学前起",
-    tool: "bubble",
+    tool: null,
     color: "#ffe4e1",
     description: "把声母、韵母和声调组合成完整读音。",
     icon: "train",
@@ -44,7 +44,7 @@ const games = [
     category: "language",
     categoryLabel: "语文",
     level: "二年级起",
-    tool: "spinner",
+    tool: null,
     color: "#dff6ed",
     description: "在近义词、反义词和量词之间建立连接。",
     icon: "cards",
@@ -64,7 +64,7 @@ const games = [
     category: "art",
     categoryLabel: "艺术",
     level: "二年级起",
-    tool: "paint",
+    tool: null,
     color: "#fff2c6",
     description: "画出左右或上下对称的图形。",
     icon: "symmetry",
@@ -84,7 +84,7 @@ const games = [
     category: "logic",
     categoryLabel: "益智",
     level: "一年级起",
-    tool: "spinner",
+    tool: null,
     color: "#ffe4e1",
     description: "根据颜色和形状寻找相同组合。",
     icon: "memory",
@@ -94,7 +94,7 @@ const games = [
     category: "logic",
     categoryLabel: "益智",
     level: "二年级起",
-    tool: "hundred",
+    tool: null,
     color: "#dff6ed",
     description: "用方向、顺序和策略找出路线。",
     icon: "maze",
@@ -120,16 +120,6 @@ const games = [
     icon: "spinner",
   },
 ];
-
-const categoryNames = {
-  all: "全部",
-  math: "数学",
-  language: "语文",
-  art: "艺术",
-  music: "音乐",
-  logic: "益智",
-  teacher: "教师工具",
-};
 
 const svgIcons = {
   bubbles: () => `
@@ -251,6 +241,7 @@ const svgIcons = {
 const gameGrid = document.querySelector("#gameGrid");
 const gameCount = document.querySelector("#gameCount");
 const searchInput = document.querySelector("#siteSearch");
+const searchForm = document.querySelector(".header-search");
 const filterButtons = document.querySelectorAll(".filter-chip");
 let activeFilter = "all";
 
@@ -262,11 +253,31 @@ function renderGames() {
     return matchesCategory && searchable.includes(query);
   });
 
-  gameCount.textContent = `${filtered.length} 个游戏`;
+  const playableCount = filtered.filter((game) => game.tool).length;
+  const comingSoonCount = filtered.length - playableCount;
+  gameCount.textContent = filtered.length
+    ? `${playableCount} 个可玩 / ${comingSoonCount} 个待上线`
+    : "0 个结果";
+
+  if (!filtered.length) {
+    gameGrid.innerHTML = `
+      <div class="empty-state" role="status">
+        <strong>没有找到匹配的游戏</strong>
+        <span>换一个关键词，或回到“全部”分类继续浏览。</span>
+      </div>
+    `;
+    return;
+  }
+
   gameGrid.innerHTML = filtered
     .map(
       (game) => `
-        <button class="game-card" type="button" data-tool="${game.tool}">
+        <button
+          class="game-card ${game.tool ? "" : "is-soon"}"
+          type="button"
+          data-tool="${game.tool || ""}"
+          ${game.tool ? "" : "disabled aria-disabled=\"true\""}
+        >
           <span class="game-thumb" style="background:${game.color}">
             ${svgIcons[game.icon]()}
           </span>
@@ -274,14 +285,14 @@ function renderGames() {
           <p>${game.description}</p>
           <span class="game-meta">
             <span>${game.categoryLabel}</span>
-            <span>${game.level}</span>
+            <span>${game.tool ? game.level : "即将上线"}</span>
           </span>
         </button>
       `,
     )
     .join("");
 
-  document.querySelectorAll(".game-card").forEach((card) => {
+  document.querySelectorAll(".game-card:not(:disabled)").forEach((card) => {
     card.addEventListener("click", () => {
       activateTool(card.dataset.tool);
       document.querySelector("#playLab").scrollIntoView({ behavior: "smooth" });
@@ -295,6 +306,10 @@ filterButtons.forEach((button) => {
     filterButtons.forEach((item) => item.classList.toggle("active", item === button));
     renderGames();
   });
+});
+
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
 });
 
 searchInput.addEventListener("input", renderGames);
@@ -415,6 +430,27 @@ function activateTool(tool) {
 labTabs.forEach((tab) => {
   tab.addEventListener("click", () => activateTool(tab.dataset.tool));
 });
+
+document.querySelectorAll("[data-tool-link]").forEach((link) => {
+  link.addEventListener("click", () => {
+    activateTool(link.dataset.toolLink);
+  });
+});
+
+function activateToolFromHash() {
+  const hashToolMap = {
+    "#teacherTools": "timer",
+    "#timer": "timer",
+  };
+  const tool = hashToolMap[window.location.hash];
+  if (tool) {
+    activateTool(tool);
+    document.querySelector("#playLab").scrollIntoView();
+  }
+}
+
+window.addEventListener("hashchange", activateToolFromHash);
+activateToolFromHash();
 
 const hundredGrid = document.querySelector("#hundredGrid");
 const modeButtons = document.querySelectorAll(".segmented button");
@@ -538,7 +574,15 @@ resizeCanvas();
 let audioContext = null;
 
 function playNote(frequency, button) {
-  audioContext = audioContext || new AudioContext();
+  const AudioEngine = window.AudioContext || window.webkitAudioContext;
+  if (!AudioEngine) {
+    button.classList.add("playing");
+    window.setTimeout(() => button.classList.remove("playing"), 180);
+    return;
+  }
+
+  audioContext = audioContext || new AudioEngine();
+  audioContext.resume?.();
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
   oscillator.type = "sine";
@@ -611,12 +655,13 @@ const spinButton = document.querySelector("#spinButton");
 const spinnerWheel = document.querySelector("#spinnerWheel");
 const spinnerResult = document.querySelector("#spinnerResult");
 const spinnerItems = ["口算", "拼读", "画图", "讲述"];
-let spinDegrees = 0;
+let spinCycles = 0;
 
 spinButton.addEventListener("click", () => {
   const index = rand(0, spinnerItems.length - 1);
-  const extraTurns = rand(4, 7) * 360;
-  spinDegrees += extraTurns + index * 90 + rand(8, 48);
-  spinnerWheel.style.transform = `rotate(${spinDegrees}deg)`;
+  const segmentCenter = index * 90 + 45;
+  spinCycles += rand(4, 7);
+  const finalRotation = spinCycles * 360 - segmentCenter;
+  spinnerWheel.style.transform = `rotate(${finalRotation}deg)`;
   spinnerResult.textContent = spinnerItems[index];
 });
