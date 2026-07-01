@@ -1,461 +1,733 @@
-const games = [
+const subjects = {
+  all: "全部",
+  math: "数学",
+  chinese: "语文",
+  english: "基础英语",
+  teacher: "教师工具",
+};
+
+const grades = {
+  all: "全部",
+  preschool: "幼小衔接",
+  lower: "一二年级",
+  middle: "三四年级",
+  upper: "五六年级",
+  teacher: "教师",
+};
+
+const modes = {
+  child: "孩子模式",
+  teacher: "老师模式",
+};
+
+const activities = [
   {
+    id: "math-bubble",
     title: "数学泡泡",
-    category: "math",
-    categoryLabel: "数学",
-    level: "一年级起",
-    tool: "bubble",
-    color: "#dff3f6",
-    description: "用几个数字凑出目标数，练习加法和数感。",
-    icon: "bubbles",
+    subject: "math",
+    grade: "lower",
+    type: "sum",
+    skill: "加法与数感",
+    teacherNote: "投屏后让学生轮流凑目标数，适合口算热身。",
+    description: "点选数字泡泡，凑出目标数。",
   },
   {
+    id: "hundred-chart",
     title: "百数表",
-    category: "math",
-    categoryLabel: "数学",
-    level: "一年级起",
-    tool: "hundred",
-    color: "#fff2c6",
-    description: "观察奇偶、倍数和质数的数字规律。",
-    icon: "grid",
+    subject: "math",
+    grade: "lower",
+    type: "hundred",
+    skill: "数字规律",
+    teacherNote: "讲奇偶、倍数、质数时可以直接高亮。",
+    description: "观察 1 到 100 的数字规律。",
   },
   {
+    id: "fraction-bars",
     title: "分数条",
-    category: "math",
-    categoryLabel: "数学",
-    level: "三年级起",
-    tool: "fraction",
-    color: "#ede7ff",
-    description: "用可视化色条理解二分之一、三分之一和四分之一。",
-    icon: "strips",
+    subject: "math",
+    grade: "middle",
+    type: "fraction",
+    skill: "分数大小",
+    teacherNote: "让学生对比 1/2、2/4、3/6 的等值关系。",
+    description: "点亮分数条，理解几分之几。",
   },
   {
+    id: "multiplication",
+    title: "乘法口诀",
+    subject: "math",
+    grade: "middle",
+    type: "quiz",
+    skill: "乘法事实",
+    teacherNote: "适合 1 分钟口算挑战。",
+    description: "选择正确的乘法结果。",
+    questions: [
+      { prompt: "6 × 7 = ?", answer: "42", options: ["36", "42", "48", "49"] },
+      { prompt: "8 × 4 = ?", answer: "32", options: ["24", "28", "32", "36"] },
+      { prompt: "9 × 6 = ?", answer: "54", options: ["45", "48", "54", "63"] },
+    ],
+  },
+  {
+    id: "clock-time",
+    title: "时钟练习",
+    subject: "math",
+    grade: "lower",
+    type: "quiz",
+    skill: "认识时间",
+    teacherNote: "先看钟面，再让学生说出整点和半点。",
+    description: "看提示，选出正确时间。",
+    questions: [
+      { prompt: "分针指向 12，时针指向 3", answer: "3:00", options: ["2:30", "3:00", "3:30", "12:03"] },
+      { prompt: "分针指向 6，时针在 8 和 9 中间", answer: "8:30", options: ["6:08", "8:30", "9:30", "8:00"] },
+      { prompt: "分针指向 12，时针指向 11", answer: "11:00", options: ["10:30", "11:00", "12:11", "11:30"] },
+    ],
+  },
+  {
+    id: "money-change",
+    title: "人民币找零",
+    subject: "math",
+    grade: "middle",
+    type: "quiz",
+    skill: "金额计算",
+    teacherNote: "适合生活化数学和购物情境练习。",
+    description: "根据价格和付款金额选择找零。",
+    questions: [
+      { prompt: "买铅笔 3 元，付 10 元，应找？", answer: "7 元", options: ["5 元", "6 元", "7 元", "8 元"] },
+      { prompt: "买本子 6 元，付 20 元，应找？", answer: "14 元", options: ["12 元", "13 元", "14 元", "16 元"] },
+      { prompt: "买橡皮 2 元，付 5 元，应找？", answer: "3 元", options: ["2 元", "3 元", "4 元", "5 元"] },
+    ],
+  },
+  {
+    id: "shape-sort",
+    title: "图形分类",
+    subject: "math",
+    grade: "lower",
+    type: "quiz",
+    skill: "几何分类",
+    teacherNote: "让学生说明为什么这个图形属于这一类。",
+    description: "按边数、形状和颜色分类。",
+    questions: [
+      { prompt: "哪一个是三角形？", answer: "▲", options: ["●", "■", "▲", "◆"] },
+      { prompt: "哪一个有四条边？", answer: "□", options: ["○", "□", "△", "☆"] },
+      { prompt: "哪一个最像圆？", answer: "●", options: ["◆", "●", "▲", "■"] },
+    ],
+  },
+  {
+    id: "number-line",
+    title: "数轴跳跳",
+    subject: "math",
+    grade: "lower",
+    type: "quiz",
+    skill: "数轴与序数",
+    teacherNote: "适合讲前后、加减和数轴位置。",
+    description: "找到数字在数轴上的位置。",
+    questions: [
+      { prompt: "从 0 往右跳 5 格，到哪里？", answer: "5", options: ["3", "4", "5", "6"] },
+      { prompt: "从 8 往左跳 3 格，到哪里？", answer: "5", options: ["4", "5", "6", "11"] },
+      { prompt: "3 和 7 中间的数是？", answer: "5", options: ["4", "5", "6", "7"] },
+    ],
+  },
+  {
+    id: "pinyin-train",
     title: "拼音火车",
-    category: "language",
-    categoryLabel: "语文",
-    level: "学前起",
-    tool: "pinyin",
-    color: "#ffe4e1",
-    description: "把声母、韵母和声调组合成完整读音。",
-    icon: "train",
+    subject: "chinese",
+    grade: "preschool",
+    type: "quiz",
+    skill: "声韵拼读",
+    teacherNote: "让学生先拼读，再选字。",
+    description: "把声母、韵母和声调拼成汉字。",
+    questions: [
+      { prompt: "b + ao + 一声", answer: "包", options: ["包", "跑", "猫", "鸟"] },
+      { prompt: "m + a + 一声", answer: "妈", options: ["妈", "马", "木", "目"] },
+      { prompt: "h + ua + 一声", answer: "花", options: ["画", "话", "花", "瓜"] },
+    ],
   },
   {
+    id: "pinyin-match",
+    title: "声母韵母配对",
+    subject: "chinese",
+    grade: "preschool",
+    type: "match",
+    skill: "拼音组合",
+    teacherNote: "把拼音卡贴到黑板上，也能按这个规则玩。",
+    description: "找出能组成常见音节的搭档。",
+    pairs: [
+      ["b", "ao"],
+      ["m", "a"],
+      ["sh", "ui"],
+      ["x", "ue"],
+    ],
+  },
+  {
+    id: "hanzi-cards",
+    title: "识字卡",
+    subject: "chinese",
+    grade: "lower",
+    type: "flashcard",
+    skill: "常用字识记",
+    teacherNote: "正面读字，背面说词语。",
+    description: "翻看常用汉字和词语。",
+    cards: [
+      { front: "山", back: "山坡、火山" },
+      { front: "水", back: "喝水、河水" },
+      { front: "明", back: "明亮、明天" },
+      { front: "林", back: "树林、森林" },
+    ],
+  },
+  {
+    id: "word-pairs",
     title: "词语配对",
-    category: "language",
-    categoryLabel: "语文",
-    level: "二年级起",
-    tool: "wordmatch",
-    color: "#dff6ed",
-    description: "在近义词、反义词和量词之间建立连接。",
-    icon: "cards",
+    subject: "chinese",
+    grade: "lower",
+    type: "match",
+    skill: "反义词",
+    teacherNote: "让学生配对后再造一个句子。",
+    description: "找到反义词搭档。",
+    pairs: [
+      ["大", "小"],
+      ["快", "慢"],
+      ["高", "低"],
+      ["冷", "热"],
+      ["前", "后"],
+      ["开", "关"],
+    ],
   },
   {
-    title: "自由画板",
-    category: "art",
-    categoryLabel: "艺术",
-    level: "全年级",
-    tool: "paint",
-    color: "#dff3f6",
-    description: "用颜色、线条和网格创作图案。",
-    icon: "paint",
+    id: "idiom-puzzle",
+    title: "成语拼图",
+    subject: "chinese",
+    grade: "middle",
+    type: "order",
+    skill: "成语积累",
+    teacherNote: "排对后让学生解释成语意思。",
+    description: "把打乱的字排成成语。",
+    target: ["画", "龙", "点", "睛"],
   },
   {
-    title: "对称花园",
-    category: "art",
-    categoryLabel: "艺术",
-    level: "二年级起",
-    tool: "symmetry",
-    color: "#fff2c6",
-    description: "画出左右或上下对称的图形。",
-    icon: "symmetry",
+    id: "poem-order",
+    title: "古诗排序",
+    subject: "chinese",
+    grade: "middle",
+    type: "order",
+    skill: "诗句顺序",
+    teacherNote: "先排序，再朗读整句。",
+    description: "把诗句按正确顺序排好。",
+    target: ["床前明月光", "疑是地上霜", "举头望明月", "低头思故乡"],
   },
   {
-    title: "节奏琴",
-    category: "music",
-    categoryLabel: "音乐",
-    level: "全年级",
-    tool: "piano",
-    color: "#ede7ff",
-    description: "用七个音阶做节奏、旋律和听辨练习。",
-    icon: "piano",
+    id: "measure-words",
+    title: "量词练习",
+    subject: "chinese",
+    grade: "lower",
+    type: "quiz",
+    skill: "量词搭配",
+    teacherNote: "适合低年级口头表达训练。",
+    description: "选择合适的量词。",
+    questions: [
+      { prompt: "一 ___ 书", answer: "本", options: ["只", "本", "条", "朵"] },
+      { prompt: "一 ___ 鱼", answer: "条", options: ["条", "个", "把", "棵"] },
+      { prompt: "一 ___ 花", answer: "朵", options: ["张", "朵", "匹", "支"] },
+    ],
   },
   {
-    title: "图形记忆",
-    category: "logic",
-    categoryLabel: "益智",
-    level: "一年级起",
-    tool: "memory",
-    color: "#ffe4e1",
-    description: "根据颜色和形状寻找相同组合。",
-    icon: "memory",
+    id: "picture-sentence",
+    title: "看图组句",
+    subject: "chinese",
+    grade: "lower",
+    type: "builder",
+    skill: "句子表达",
+    teacherNote: "完成后让学生换一个主语再说一句。",
+    description: "按顺序拼出完整句子。",
+    target: ["小猫", "在", "树下", "睡觉"],
   },
   {
-    title: "迷宫路径",
-    category: "logic",
-    categoryLabel: "益智",
-    level: "二年级起",
-    tool: "maze",
-    color: "#dff6ed",
-    description: "用方向、顺序和策略找出路线。",
-    icon: "maze",
+    id: "letter-match",
+    title: "字母配对",
+    subject: "english",
+    grade: "preschool",
+    type: "match",
+    skill: "大小写字母",
+    teacherNote: "适合英语启蒙第一课。",
+    description: "找到大小写字母搭档。",
+    pairs: [
+      ["A", "a"],
+      ["B", "b"],
+      ["M", "m"],
+      ["S", "s"],
+      ["T", "t"],
+      ["P", "p"],
+    ],
   },
   {
+    id: "alphabet-order",
+    title: "字母排序",
+    subject: "english",
+    grade: "preschool",
+    type: "order",
+    skill: "字母顺序",
+    teacherNote: "可以分组比赛谁排得更快。",
+    description: "把字母排成正确顺序。",
+    target: ["A", "B", "C", "D", "E", "F"],
+  },
+  {
+    id: "initial-sound",
+    title: "首字母找图",
+    subject: "english",
+    grade: "lower",
+    type: "quiz",
+    skill: "首音辨认",
+    teacherNote: "先读图，再强调首字母音。",
+    description: "根据单词选择首字母。",
+    questions: [
+      { prompt: "apple 的首字母是？", answer: "A", options: ["A", "B", "C", "D"] },
+      { prompt: "cat 的首字母是？", answer: "C", options: ["A", "B", "C", "T"] },
+      { prompt: "dog 的首字母是？", answer: "D", options: ["G", "B", "D", "P"] },
+    ],
+  },
+  {
+    id: "cvc-builder",
+    title: "CVC 拼词",
+    subject: "english",
+    grade: "lower",
+    type: "builder",
+    skill: "自然拼读",
+    teacherNote: "拼完后让学生读出 /c/ /a/ /t/。",
+    description: "把字母拼成 CVC 单词。",
+    target: ["c", "a", "t"],
+  },
+  {
+    id: "sight-words",
+    title: "高频词泡泡",
+    subject: "english",
+    grade: "lower",
+    type: "quiz",
+    skill: "Sight words",
+    teacherNote: "读题后让学生快速点词。",
+    description: "选出老师念到的高频词。",
+    questions: [
+      { prompt: "找到 can", answer: "can", options: ["cat", "can", "cap", "cup"] },
+      { prompt: "找到 like", answer: "like", options: ["look", "like", "lake", "bike"] },
+      { prompt: "找到 see", answer: "see", options: ["sea", "see", "she", "say"] },
+    ],
+  },
+  {
+    id: "word-cards",
+    title: "单词图卡",
+    subject: "english",
+    grade: "lower",
+    type: "flashcard",
+    skill: "主题词汇",
+    teacherNote: "正面读英文，背面说中文。",
+    description: "翻看常见英语单词。",
+    cards: [
+      { front: "cat", back: "猫" },
+      { front: "apple", back: "苹果" },
+      { front: "book", back: "书" },
+      { front: "school", back: "学校" },
+    ],
+  },
+  {
+    id: "color-number",
+    title: "颜色数字",
+    subject: "english",
+    grade: "preschool",
+    type: "quiz",
+    skill: "颜色与数字",
+    teacherNote: "适合低龄英语热身。",
+    description: "选择正确的颜色或数字英文。",
+    questions: [
+      { prompt: "红色用英语怎么说？", answer: "red", options: ["red", "blue", "green", "yellow"] },
+      { prompt: "数字 8 是？", answer: "eight", options: ["six", "seven", "eight", "ten"] },
+      { prompt: "黄色用英语怎么说？", answer: "yellow", options: ["white", "yellow", "black", "blue"] },
+    ],
+  },
+  {
+    id: "sentence-builder",
+    title: "简单句拼装",
+    subject: "english",
+    grade: "lower",
+    type: "builder",
+    skill: "基础句型",
+    teacherNote: "完成后替换 apples 为其他词，做口语拓展。",
+    description: "把英文单词拼成完整句子。",
+    target: ["I", "like", "apples"],
+  },
+  {
+    id: "class-timer",
     title: "课堂计时器",
-    category: "teacher",
-    categoryLabel: "教师工具",
-    level: "教师",
-    tool: "timer",
-    color: "#dff3f6",
-    description: "给讨论、口算、收纳和展示设置倒计时。",
-    icon: "timer",
+    subject: "teacher",
+    grade: "teacher",
+    type: "timer",
+    skill: "课堂节奏",
+    teacherNote: "讨论、收纳、展示都可以用。",
+    description: "设置 1、3、5 分钟倒计时。",
   },
   {
+    id: "class-spinner",
     title: "课堂转盘",
-    category: "teacher",
-    categoryLabel: "教师工具",
-    level: "教师",
-    tool: "spinner",
-    color: "#fff2c6",
-    description: "随机选择小组、任务或复习主题。",
-    icon: "spinner",
+    subject: "teacher",
+    grade: "teacher",
+    type: "spinner",
+    skill: "随机任务",
+    teacherNote: "随机抽题、选任务或决定小组活动。",
+    description: "转盘随机选出课堂任务。",
+    items: ["口算", "拼读", "朗读", "画图", "讲述", "挑战"],
+  },
+  {
+    id: "name-picker",
+    title: "随机点名",
+    subject: "teacher",
+    grade: "teacher",
+    type: "picker",
+    skill: "课堂互动",
+    teacherNote: "把学生名粘贴进去，一键随机。",
+    description: "随机抽取一个名字。",
+  },
+  {
+    id: "scoreboard",
+    title: "小组计分板",
+    subject: "teacher",
+    grade: "teacher",
+    type: "scoreboard",
+    skill: "小组激励",
+    teacherNote: "适合分组竞赛和课堂积分。",
+    description: "给 4 个小组加减分。",
+  },
+  {
+    id: "card-board",
+    title: "字母/拼音卡片",
+    subject: "teacher",
+    grade: "teacher",
+    type: "flashcard",
+    skill: "课堂卡片",
+    teacherNote: "可投屏做快速认读。",
+    description: "快速切换字母、拼音和词卡。",
+    cards: [
+      { front: "A a", back: "apple" },
+      { front: "b", back: "b + ao = bao" },
+      { front: "sh", back: "sh + ui = shui" },
+      { front: "can", back: "I can read." },
+    ],
+  },
+  {
+    id: "whiteboard",
+    title: "课堂白板",
+    subject: "teacher",
+    grade: "teacher",
+    type: "whiteboard",
+    skill: "板书演示",
+    teacherNote: "投屏后直接圈画、连线、写关键词。",
+    description: "一个简洁的可画白板。",
   },
 ];
 
-const svgIcons = {
-  bubbles: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#dff3f6"/>
-      <circle cx="70" cy="76" r="38" fill="#ffd166" stroke="#17202a" stroke-width="6"/>
-      <circle cx="138" cy="54" r="30" fill="#fff" stroke="#17202a" stroke-width="6"/>
-      <circle cx="182" cy="96" r="34" fill="#f25c54" stroke="#17202a" stroke-width="6"/>
-      <text x="70" y="86" text-anchor="middle" font-size="34" font-weight="900" fill="#17202a">7</text>
-      <text x="138" y="65" text-anchor="middle" font-size="28" font-weight="900" fill="#17202a">3</text>
-      <text x="182" y="107" text-anchor="middle" font-size="30" font-weight="900" fill="#fff">10</text>
-    </svg>`,
-  grid: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#fff2c6"/>
-      ${Array.from({ length: 25 }, (_, index) => {
-        const x = 36 + (index % 5) * 38;
-        const y = 20 + Math.floor(index / 5) * 24;
-        const active = [1, 4, 8, 12, 16, 20, 23].includes(index);
-        return `<rect x="${x}" y="${y}" width="28" height="18" rx="3" fill="${active ? "#1f7a8c" : "#ffffff"}" stroke="#17202a" stroke-width="3"/>`;
-      }).join("")}
-    </svg>`,
-  strips: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#ede7ff"/>
-      <rect x="38" y="32" width="184" height="22" rx="6" fill="#f25c54" stroke="#17202a" stroke-width="5"/>
-      <rect x="38" y="66" width="92" height="22" rx="6" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <rect x="130" y="66" width="92" height="22" rx="6" fill="#fff" stroke="#17202a" stroke-width="5"/>
-      <rect x="38" y="100" width="46" height="22" rx="6" fill="#2a9d8f" stroke="#17202a" stroke-width="5"/>
-      <rect x="84" y="100" width="46" height="22" rx="6" fill="#fff" stroke="#17202a" stroke-width="5"/>
-      <rect x="130" y="100" width="46" height="22" rx="6" fill="#2a9d8f" stroke="#17202a" stroke-width="5"/>
-      <rect x="176" y="100" width="46" height="22" rx="6" fill="#fff" stroke="#17202a" stroke-width="5"/>
-    </svg>`,
-  train: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#ffe4e1"/>
-      <rect x="36" y="62" width="58" height="42" rx="8" fill="#f25c54" stroke="#17202a" stroke-width="6"/>
-      <rect x="104" y="50" width="54" height="54" rx="8" fill="#ffd166" stroke="#17202a" stroke-width="6"/>
-      <rect x="168" y="62" width="58" height="42" rx="8" fill="#1f7a8c" stroke="#17202a" stroke-width="6"/>
-      <circle cx="58" cy="113" r="11" fill="#17202a"/>
-      <circle cx="138" cy="113" r="11" fill="#17202a"/>
-      <circle cx="204" cy="113" r="11" fill="#17202a"/>
-      <text x="65" y="91" text-anchor="middle" font-size="24" font-weight="900" fill="#fff">b</text>
-      <text x="132" y="84" text-anchor="middle" font-size="22" font-weight="900" fill="#17202a">ao</text>
-      <text x="197" y="91" text-anchor="middle" font-size="24" font-weight="900" fill="#fff">包</text>
-    </svg>`,
-  cards: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#dff6ed"/>
-      <rect x="48" y="34" width="70" height="86" rx="9" fill="#fff" stroke="#17202a" stroke-width="6"/>
-      <rect x="142" y="34" width="70" height="86" rx="9" fill="#fff" stroke="#17202a" stroke-width="6"/>
-      <path d="M118 77h24" stroke="#17202a" stroke-width="6" stroke-linecap="round"/>
-      <path d="M134 66l12 11-12 11" fill="none" stroke="#17202a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="83" y="84" text-anchor="middle" font-size="22" font-weight="900" fill="#17202a">大</text>
-      <text x="177" y="84" text-anchor="middle" font-size="22" font-weight="900" fill="#17202a">小</text>
-    </svg>`,
-  paint: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#dff3f6"/>
-      <path d="M55 102c42-54 80 18 126-36" fill="none" stroke="#f25c54" stroke-width="12" stroke-linecap="round"/>
-      <circle cx="74" cy="50" r="16" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <rect x="148" y="86" width="42" height="30" rx="6" fill="#2a9d8f" stroke="#17202a" stroke-width="5"/>
-      <path d="M196 30l22 22-65 65-28 7 7-28z" fill="#fff" stroke="#17202a" stroke-width="5" stroke-linejoin="round"/>
-    </svg>`,
-  symmetry: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#fff2c6"/>
-      <path d="M130 20v110" stroke="#17202a" stroke-width="5" stroke-dasharray="9 8"/>
-      <path d="M126 76c-28-48-72-34-68 6 3 34 41 31 68-6z" fill="#f25c54" stroke="#17202a" stroke-width="6"/>
-      <path d="M134 76c28-48 72-34 68 6-3 34-41 31-68-6z" fill="#2a9d8f" stroke="#17202a" stroke-width="6"/>
-    </svg>`,
-  piano: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#ede7ff"/>
-      ${Array.from({ length: 7 }, (_, index) => {
-        const x = 34 + index * 28;
-        const fill = index % 2 ? "#dff3f6" : "#fff";
-        return `<rect x="${x}" y="30" width="24" height="92" rx="5" fill="${fill}" stroke="#17202a" stroke-width="5"/>`;
-      }).join("")}
-      <path d="M68 24v38M124 24v38M180 24v38" stroke="#17202a" stroke-width="8" stroke-linecap="round"/>
-    </svg>`,
-  memory: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#ffe4e1"/>
-      <rect x="52" y="28" width="54" height="42" rx="8" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <rect x="116" y="28" width="54" height="42" rx="8" fill="#1f7a8c" stroke="#17202a" stroke-width="5"/>
-      <rect x="52" y="80" width="54" height="42" rx="8" fill="#1f7a8c" stroke="#17202a" stroke-width="5"/>
-      <rect x="116" y="80" width="54" height="42" rx="8" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <circle cx="203" cy="76" r="28" fill="#fff" stroke="#17202a" stroke-width="5"/>
-    </svg>`,
-  maze: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#dff6ed"/>
-      <path d="M44 35h160v82H70V62h106v30H98" fill="none" stroke="#17202a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="44" cy="35" r="12" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <rect x="84" y="80" width="30" height="24" rx="6" fill="#f25c54" stroke="#17202a" stroke-width="5"/>
-    </svg>`,
-  timer: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#dff3f6"/>
-      <circle cx="130" cy="80" r="48" fill="#fff" stroke="#17202a" stroke-width="7"/>
-      <path d="M130 80V48M130 80l28 18" stroke="#17202a" stroke-width="7" stroke-linecap="round"/>
-      <rect x="108" y="18" width="44" height="18" rx="6" fill="#ffd166" stroke="#17202a" stroke-width="5"/>
-      <path d="M88 32l-18 18M172 32l18 18" stroke="#17202a" stroke-width="6" stroke-linecap="round"/>
-    </svg>`,
-  spinner: () => `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="#fff2c6"/>
-      <circle cx="130" cy="76" r="50" fill="#fff" stroke="#17202a" stroke-width="7"/>
-      <path d="M130 26a50 50 0 0 1 50 50h-50z" fill="#f25c54"/>
-      <path d="M180 76a50 50 0 0 1-50 50V76z" fill="#ffd166"/>
-      <path d="M130 126a50 50 0 0 1-50-50h50z" fill="#2a9d8f"/>
-      <path d="M80 76a50 50 0 0 1 50-50v50z" fill="#7c3aed"/>
-      <circle cx="130" cy="76" r="9" fill="#17202a"/>
-      <path d="M130 76l36-28" stroke="#17202a" stroke-width="6" stroke-linecap="round"/>
-    </svg>`,
+const state = {
+  subject: "all",
+  grade: "all",
+  mode: "child",
+  query: "",
+  activeId: "math-bubble",
+  sound: true,
+};
+
+const runtime = {
+  quizIndex: {},
+  score: {},
+  timerId: null,
+  timerSeconds: 180,
+  timerDefault: 180,
+  selected: [],
+  matched: new Set(),
+  built: [],
+  flashIndex: {},
+  flashBack: false,
+  scoreboard: [0, 0, 0, 0],
 };
 
 const gameGrid = document.querySelector("#gameGrid");
 const gameCount = document.querySelector("#gameCount");
-const searchInput = document.querySelector("#siteSearch");
+const dailyList = document.querySelector("#dailyList");
+const teacherRail = document.querySelector("#teacherRail");
+const activityPanel = document.querySelector("#activityPanel");
 const searchForm = document.querySelector(".header-search");
-const filterButtons = document.querySelectorAll(".filter-chip");
-let activeFilter = "all";
+const searchInput = document.querySelector("#siteSearch");
 
-function renderGames() {
-  const query = searchInput.value.trim().toLowerCase();
-  const filtered = games.filter((game) => {
-    const matchesCategory = activeFilter === "all" || game.category === activeFilter;
-    const searchable = `${game.title} ${game.categoryLabel} ${game.description} ${game.level}`.toLowerCase();
-    return matchesCategory && searchable.includes(query);
-  });
-
-  gameCount.textContent = filtered.length ? `${filtered.length} 个可玩游戏` : "0 个结果";
-
-  if (!filtered.length) {
-    gameGrid.innerHTML = `
-      <div class="empty-state" role="status">
-        <strong>没有找到匹配的游戏</strong>
-        <span>换一个关键词，或回到“全部”分类继续浏览。</span>
-      </div>
-    `;
-    return;
-  }
-
-  gameGrid.innerHTML = filtered
-    .map(
-      (game) => `
-        <button
-          class="game-card"
-          type="button"
-          data-tool="${game.tool}"
-        >
-          <span class="game-thumb" style="background:${game.color}">
-            ${svgIcons[game.icon]()}
-          </span>
-          <h3>${game.title}</h3>
-          <p>${game.description}</p>
-          <span class="game-meta">
-            <span>${game.categoryLabel}</span>
-            <span>${game.level}</span>
-          </span>
-        </button>
-      `,
-    )
-    .join("");
-
-  document.querySelectorAll(".game-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      activateTool(card.dataset.tool);
-      document.querySelector("#playLab").scrollIntoView({ behavior: "smooth" });
-    });
-  });
+function subjectLabel(subject) {
+  return subjects[subject] || subject;
 }
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
-    renderGames();
-  });
-});
-
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
-
-searchInput.addEventListener("input", renderGames);
-renderGames();
-
-const bubbleGames = new Map();
-
-function createBubbleGame(config) {
-  const board = document.querySelector(config.board);
-  const target = document.querySelector(config.target);
-  const status = document.querySelector(config.status);
-  const score = config.score ? document.querySelector(config.score) : null;
-  const roundButton = document.querySelector(config.roundButton);
-  const state = {
-    target: 10,
-    numbers: [],
-    selected: new Set(),
-    score: 0,
-  };
-
-  function sumSelected() {
-    return Array.from(state.selected).reduce((total, index) => total + state.numbers[index], 0);
-  }
-
-  function updateStatus() {
-    const sum = sumSelected();
-    if (sum === state.target) {
-      status.textContent = "答对了，进入下一题";
-      state.score += 1;
-      if (score) score.textContent = String(state.score);
-      window.setTimeout(newRound, 650);
-      return;
-    }
-
-    status.textContent = sum > state.target ? `选中的和：${sum}，超出一点` : `选中的和：${sum}`;
-  }
-
-  function render() {
-    target.textContent = String(state.target);
-    board.innerHTML = state.numbers
-      .map(
-        (number, index) => `
-          <button class="bubble-button" type="button" data-index="${index}" aria-pressed="${state.selected.has(index)}">
-            ${number}
-          </button>
-        `,
-      )
-      .join("");
-
-    board.querySelectorAll(".bubble-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const index = Number(button.dataset.index);
-        if (state.selected.has(index)) {
-          state.selected.delete(index);
-        } else {
-          state.selected.add(index);
-        }
-        button.classList.toggle("selected", state.selected.has(index));
-        button.setAttribute("aria-pressed", String(state.selected.has(index)));
-        updateStatus();
-      });
-    });
-
-    status.textContent = "选中的和：0";
-  }
-
-  function newRound() {
-    const a = rand(2, 9);
-    const b = rand(2, 9);
-    const c = rand(1, 6);
-    state.target = a + b;
-    state.selected.clear();
-    state.numbers = shuffle([a, b, c, rand(1, 9), rand(1, 9), rand(1, 9), rand(1, 9), rand(1, 9)]);
-    render();
-  }
-
-  roundButton.addEventListener("click", newRound);
-  newRound();
-  bubbleGames.set(config.name, { newRound });
+function gradeLabel(grade) {
+  return grades[grade] || grade;
 }
 
-function rand(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function getActivity(id) {
+  return activities.find((activity) => activity.id === id) || activities[0];
 }
 
 function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
-createBubbleGame({
-  name: "hero",
-  board: "#bubbleBoard",
-  target: "#bubbleTarget",
-  status: "#bubbleStatus",
-  score: "#bubbleScore",
-  roundButton: "#newBubbleRound",
-});
-
-createBubbleGame({
-  name: "lab",
-  board: "#labBubbleBoard",
-  target: "#labBubbleTarget",
-  status: "#labBubbleStatus",
-  roundButton: "#labNewBubbleRound",
-});
-
-const labTabs = document.querySelectorAll(".lab-tab");
-const panels = document.querySelectorAll("[data-tool-panel]");
-
-function activateTool(tool) {
-  labTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.tool === tool));
-  panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.toolPanel === tool));
-  if (tool === "paint") {
-    resizeCanvas();
-  }
+function playTone(ok = true) {
+  if (!state.sound) return;
+  const AudioEngine = window.AudioContext || window.webkitAudioContext;
+  if (!AudioEngine) return;
+  const audio = new AudioEngine();
+  const oscillator = audio.createOscillator();
+  const gain = audio.createGain();
+  oscillator.frequency.value = ok ? 660 : 220;
+  oscillator.type = "sine";
+  gain.gain.setValueAtTime(0.001, audio.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.16, audio.currentTime + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.18);
+  oscillator.connect(gain);
+  gain.connect(audio.destination);
+  oscillator.start();
+  oscillator.stop(audio.currentTime + 0.2);
 }
 
-labTabs.forEach((tab) => {
-  tab.addEventListener("click", () => activateTool(tab.dataset.tool));
-});
-
-document.querySelectorAll("[data-tool-link]").forEach((link) => {
-  link.addEventListener("click", () => {
-    activateTool(link.dataset.toolLink);
-  });
-});
-
-function activateToolFromHash() {
-  const hashToolMap = {
-    "#fraction": "fraction",
-    "#pinyin": "pinyin",
-    "#wordmatch": "wordmatch",
-    "#symmetry": "symmetry",
-    "#memory": "memory",
-    "#maze": "maze",
-    "#teacherTools": "timer",
-    "#timer": "timer",
+function cardArt(activity) {
+  const palette = {
+    math: ["#dff3f6", "#1f7a8c"],
+    chinese: ["#ffe4e1", "#f25c54"],
+    english: ["#dff6ed", "#2a9d8f"],
+    teacher: ["#fff2c6", "#ad7a28"],
   };
-  const tool = hashToolMap[window.location.hash];
-  if (tool) {
-    activateTool(tool);
-    document.querySelector("#playLab").scrollIntoView();
-  }
+  const [bg, accent] = palette[activity.subject] || palette.math;
+  const short = activity.title.slice(0, 2);
+  return `
+    <svg viewBox="0 0 260 150" aria-hidden="true">
+      <rect width="260" height="150" fill="${bg}"/>
+      <circle cx="76" cy="76" r="36" fill="#ffd166" stroke="#17202a" stroke-width="6"/>
+      <rect x="126" y="42" width="74" height="66" rx="12" fill="${accent}" stroke="#17202a" stroke-width="6"/>
+      <path d="M66 112h132" stroke="#17202a" stroke-width="6" stroke-linecap="round"/>
+      <text x="76" y="88" text-anchor="middle" font-size="24" font-weight="900" fill="#17202a">${short}</text>
+      <text x="163" y="84" text-anchor="middle" font-size="28" font-weight="900" fill="#fff">${subjectLabel(activity.subject).slice(0, 1)}</text>
+    </svg>
+  `;
 }
 
-window.addEventListener("hashchange", activateToolFromHash);
-activateToolFromHash();
+function renderFilters() {
+  document.querySelector("#subjectFilters").innerHTML = Object.entries(subjects)
+    .map(([key, label]) => `<button class="filter-chip ${state.subject === key ? "active" : ""}" type="button" data-subject="${key}">${label}</button>`)
+    .join("");
 
-const hundredGrid = document.querySelector("#hundredGrid");
-const modeButtons = document.querySelectorAll(".segmented button");
-let hundredMode = "all";
+  document.querySelector("#gradeFilters").innerHTML = Object.entries(grades)
+    .map(([key, label]) => `<button class="filter-chip ${state.grade === key ? "active" : ""}" type="button" data-grade="${key}">${label}</button>`)
+    .join("");
+
+  document.querySelector("#modeFilters").innerHTML = Object.entries(modes)
+    .map(([key, label]) => `<button class="filter-chip ${state.mode === key ? "active" : ""}" type="button" data-mode="${key}">${label}</button>`)
+    .join("");
+
+  document.querySelectorAll("[data-subject]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.subject = button.dataset.subject;
+      renderAll();
+      document.querySelector("#games").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  document.querySelectorAll("[data-grade]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.grade = button.dataset.grade;
+      renderAll();
+      document.querySelector("#games").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  document.querySelectorAll("[data-mode]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.mode === state.mode);
+    button.addEventListener("click", () => {
+      state.mode = button.dataset.mode;
+      document.body.dataset.mode = state.mode;
+      renderAll();
+      renderActivity();
+    });
+  });
+}
+
+function filteredActivities() {
+  const query = state.query.trim().toLowerCase();
+  return activities.filter((activity) => {
+    const subjectOk = state.subject === "all" || activity.subject === state.subject;
+    const gradeOk = state.grade === "all" || activity.grade === state.grade;
+    const haystack = `${activity.title} ${activity.description} ${activity.skill} ${subjectLabel(activity.subject)} ${gradeLabel(activity.grade)}`.toLowerCase();
+    return subjectOk && gradeOk && haystack.includes(query);
+  });
+}
+
+function renderCards() {
+  const list = filteredActivities();
+  gameCount.textContent = `${list.length} 个活动`;
+
+  if (!list.length) {
+    gameGrid.innerHTML = `
+      <div class="empty-state" role="status">
+        <strong>没有找到匹配活动</strong>
+        <span>换一个关键词，或回到“全部”继续浏览。</span>
+      </div>
+    `;
+    return;
+  }
+
+  gameGrid.innerHTML = list
+    .map((activity) => `
+      <button class="game-card subject-${activity.subject}" type="button" data-activity="${activity.id}">
+        <span class="game-thumb">${cardArt(activity)}</span>
+        <span class="game-subject">${subjectLabel(activity.subject)}</span>
+        <h3>${activity.title}</h3>
+        <p>${activity.description}</p>
+        <span class="game-meta">
+          <span>${gradeLabel(activity.grade)}</span>
+          <span>${activity.skill}</span>
+        </span>
+      </button>
+    `)
+    .join("");
+
+  document.querySelectorAll("[data-activity]").forEach((button) => {
+    button.addEventListener("click", () => {
+      startActivity(button.dataset.activity);
+    });
+  });
+}
+
+function renderDaily() {
+  const picks = ["math-bubble", "pinyin-train", "cvc-builder"].map(getActivity);
+  dailyList.innerHTML = picks
+    .map((activity) => `
+      <button class="daily-card subject-${activity.subject}" type="button" data-daily="${activity.id}">
+        <span>${subjectLabel(activity.subject)}</span>
+        <strong>${activity.title}</strong>
+        <small>${activity.skill}</small>
+      </button>
+    `)
+    .join("");
+
+  document.querySelectorAll("[data-daily]").forEach((button) => {
+    button.addEventListener("click", () => startActivity(button.dataset.daily));
+  });
+}
+
+function renderTeacherRail() {
+  teacherRail.innerHTML = activities
+    .filter((activity) => activity.subject === "teacher")
+    .map((activity) => `
+      <button class="rail-card" type="button" data-teacher-tool="${activity.id}">
+        <strong>${activity.title}</strong>
+        <span>${activity.description}</span>
+      </button>
+    `)
+    .join("");
+
+  document.querySelectorAll("[data-teacher-tool]").forEach((button) => {
+    button.addEventListener("click", () => startActivity(button.dataset.teacherTool));
+  });
+}
+
+function startActivity(id) {
+  state.activeId = id;
+  runtime.selected = [];
+  runtime.built = [];
+  runtime.matched = new Set();
+  runtime.flashBack = false;
+  window.clearInterval(runtime.timerId);
+  runtime.timerId = null;
+  renderActivity();
+  document.querySelector("#playLab").scrollIntoView({ behavior: "smooth" });
+}
+
+function playHeader(activity) {
+  const teacherCopy = state.mode === "teacher" ? `<div class="teacher-note">${activity.teacherNote}</div>` : "";
+  return `
+    <div class="play-head subject-${activity.subject}">
+      <div>
+        <span class="game-subject">${subjectLabel(activity.subject)} · ${gradeLabel(activity.grade)}</span>
+        <h3>${activity.title}</h3>
+        <p>${activity.description}</p>
+      </div>
+      <div class="score-chip">
+        <span>练习</span>
+        <strong>${runtime.score[activity.id] || 0}</strong>
+      </div>
+    </div>
+    ${teacherCopy}
+  `;
+}
+
+function renderActivity() {
+  const activity = getActivity(state.activeId);
+  const renderer = {
+    sum: renderSum,
+    hundred: renderHundred,
+    fraction: renderFraction,
+    quiz: renderQuiz,
+    match: renderMatch,
+    order: renderOrder,
+    flashcard: renderFlashcard,
+    builder: renderBuilder,
+    timer: renderTimer,
+    spinner: renderSpinner,
+    picker: renderPicker,
+    scoreboard: renderScoreboard,
+    whiteboard: renderWhiteboard,
+  }[activity.type];
+
+  activityPanel.innerHTML = playHeader(activity) + `<div class="play-body">${renderer(activity)}</div>`;
+  bindActivity(activity);
+}
+
+function renderSum(activity) {
+  const a = Math.floor(Math.random() * 8) + 2;
+  const b = Math.floor(Math.random() * 8) + 2;
+  const target = a + b;
+  const distractors = Array.from({ length: 6 }, () => Math.floor(Math.random() * 9) + 1);
+  const numbers = shuffle([a, b, ...distractors]);
+  activity.current = { target, numbers, chosen: new Set() };
+  return `
+    <div class="target-panel"><span>目标</span><strong>${target}</strong></div>
+    <div class="bubble-board compact">
+      ${numbers.map((number, index) => `<button class="bubble-button" type="button" data-sum-index="${index}">${number}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">选中的和：0</strong>
+      <button type="button" data-next>换一题</button>
+    </div>
+  `;
+}
+
+function bindSum(activity) {
+  activityPanel.querySelectorAll("[data-sum-index]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.sumIndex);
+      if (activity.current.chosen.has(index)) activity.current.chosen.delete(index);
+      else activity.current.chosen.add(index);
+      button.classList.toggle("selected", activity.current.chosen.has(index));
+      const sum = [...activity.current.chosen].reduce((total, item) => total + activity.current.numbers[item], 0);
+      const status = activityPanel.querySelector("#activityStatus");
+      if (sum === activity.current.target) {
+        runtime.score[activity.id] = (runtime.score[activity.id] || 0) + 1;
+        status.textContent = "答对了，进入下一题";
+        playTone(true);
+        window.setTimeout(renderActivity, 650);
+      } else {
+        status.textContent = sum > activity.current.target ? `选中的和：${sum}，超出一点` : `选中的和：${sum}`;
+      }
+    });
+  });
+}
+
+function renderHundred() {
+  return `
+    <div class="segmented" aria-label="百数表模式">
+      <button class="active" type="button" data-hundred="all">全部</button>
+      <button type="button" data-hundred="even">偶数</button>
+      <button type="button" data-hundred="five">5 的倍数</button>
+      <button type="button" data-hundred="prime">质数</button>
+    </div>
+    <div class="hundred-grid" id="hundredGrid"></div>
+  `;
+}
 
 function isPrime(number) {
   if (number < 2) return false;
@@ -465,488 +737,255 @@ function isPrime(number) {
   return true;
 }
 
-function shouldHighlight(number) {
-  if (hundredMode === "even") return number % 2 === 0;
-  if (hundredMode === "five") return number % 5 === 0;
-  if (hundredMode === "prime") return isPrime(number);
-  return true;
-}
-
-function renderHundredGrid() {
-  hundredGrid.innerHTML = Array.from({ length: 100 }, (_, index) => {
-    const number = index + 1;
-    const active = shouldHighlight(number) ? "highlight" : "";
-    return `<button class="hundred-cell ${active}" type="button" data-number="${number}">${number}</button>`;
-  }).join("");
-
-  hundredGrid.querySelectorAll(".hundred-cell").forEach((cell) => {
-    cell.addEventListener("click", () => cell.classList.toggle("picked"));
-  });
-}
-
-modeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    hundredMode = button.dataset.mode;
-    modeButtons.forEach((item) => item.classList.toggle("active", item === button));
-    renderHundredGrid();
-  });
-});
-
-renderHundredGrid();
-
-const fractionBuilder = document.querySelector("#fractionBuilder");
-const fractionReference = document.querySelector("#fractionReference");
-const fractionStatus = document.querySelector("#fractionStatus");
-const denominatorButtons = document.querySelectorAll("[data-denominator]");
-const fractionState = {
-  denominator: 2,
-  filled: 1,
-};
-
-function fractionText(numerator, denominator) {
-  return `${numerator}/${denominator}`;
-}
-
-function renderFractionTool() {
-  fractionBuilder.innerHTML = Array.from({ length: fractionState.denominator }, (_, index) => {
-    const active = index < fractionState.filled ? "active" : "";
-    return `<button class="fraction-segment ${active}" type="button" data-segment="${index}">${index + 1}</button>`;
-  }).join("");
-
-  fractionBuilder.querySelectorAll(".fraction-segment").forEach((segment) => {
-    segment.addEventListener("click", () => {
-      fractionState.filled = Number(segment.dataset.segment) + 1;
-      renderFractionTool();
-    });
-  });
-
-  const references = [2, 3, 4, 6, 8];
-  fractionReference.innerHTML = references
-    .map((denominator) => {
-      const cells = Array.from({ length: denominator }, (_, index) => {
-        const active = index < Math.ceil((fractionState.filled / fractionState.denominator) * denominator);
-        return `<span class="${active ? "active" : ""}"></span>`;
-      }).join("");
-      return `<div class="fraction-row"><strong>1/${denominator}</strong><div>${cells}</div></div>`;
-    })
-    .join("");
-
-  fractionStatus.textContent = `当前：${fractionText(fractionState.filled, fractionState.denominator)}`;
-}
-
-denominatorButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    fractionState.denominator = Number(button.dataset.denominator);
-    fractionState.filled = 1;
-    denominatorButtons.forEach((item) => item.classList.toggle("active", item === button));
-    renderFractionTool();
-  });
-});
-
-document.querySelector("#resetFraction").addEventListener("click", () => {
-  fractionState.filled = 1;
-  renderFractionTool();
-});
-
-renderFractionTool();
-
-const pinyinQuestions = [
-  { initial: "b", final: "ao", tone: "一声", answer: "包", choices: ["包", "跑", "猫", "鸟"], word: "书包" },
-  { initial: "m", final: "a", tone: "一声", answer: "妈", choices: ["妈", "马", "木", "目"], word: "妈妈" },
-  { initial: "h", final: "ua", tone: "一声", answer: "花", choices: ["画", "话", "花", "瓜"], word: "花朵" },
-  { initial: "sh", final: "ui", tone: "三声", answer: "水", choices: ["水", "睡", "说", "谁"], word: "喝水" },
-  { initial: "x", final: "ue", tone: "二声", answer: "学", choices: ["雪", "学", "月", "写"], word: "学习" },
-];
-let pinyinIndex = 0;
-let pinyinScore = 0;
-
-function renderPinyinQuestion() {
-  const question = pinyinQuestions[pinyinIndex];
-  document.querySelector("#pinyinInitial").textContent = question.initial;
-  document.querySelector("#pinyinFinal").textContent = question.final;
-  document.querySelector("#pinyinTone").textContent = question.tone;
-  document.querySelector("#pinyinChoices").innerHTML = shuffle(question.choices)
-    .map((choice) => `<button type="button" data-choice="${choice}">${choice}</button>`)
-    .join("");
-  document.querySelector("#pinyinStatus").textContent = `选出正确汉字，已答对 ${pinyinScore} 题`;
-
-  document.querySelectorAll("#pinyinChoices button").forEach((button) => {
+function bindHundred() {
+  const renderGrid = (mode) => {
+    const shouldHighlight = (number) => {
+      if (mode === "even") return number % 2 === 0;
+      if (mode === "five") return number % 5 === 0;
+      if (mode === "prime") return isPrime(number);
+      return true;
+    };
+    activityPanel.querySelector("#hundredGrid").innerHTML = Array.from({ length: 100 }, (_, index) => {
+      const number = index + 1;
+      return `<button class="hundred-cell ${shouldHighlight(number) ? "highlight" : ""}" type="button">${number}</button>`;
+    }).join("");
+  };
+  renderGrid("all");
+  activityPanel.querySelectorAll("[data-hundred]").forEach((button) => {
     button.addEventListener("click", () => {
-      const correct = button.dataset.choice === question.answer;
-      button.classList.add(correct ? "correct" : "wrong");
-      document.querySelector("#pinyinStatus").textContent = correct
-        ? `答对了：${question.word}`
-        : `再想想：${question.initial}${question.final}`;
-      if (correct) {
-        pinyinScore += 1;
-        window.setTimeout(nextPinyinQuestion, 600);
-      }
+      activityPanel.querySelectorAll("[data-hundred]").forEach((item) => item.classList.toggle("active", item === button));
+      renderGrid(button.dataset.hundred);
     });
   });
 }
 
-function nextPinyinQuestion() {
-  pinyinIndex = (pinyinIndex + 1) % pinyinQuestions.length;
-  renderPinyinQuestion();
+function renderFraction(activity) {
+  activity.current = { denominator: 4, filled: 1 };
+  return `
+    <div class="segmented">
+      ${[2, 3, 4, 6, 8].map((number) => `<button class="${number === 4 ? "active" : ""}" type="button" data-denominator="${number}">${number} 份</button>`).join("")}
+    </div>
+    <div class="fraction-builder" id="fractionBuilder"></div>
+    <div class="fraction-reference" id="fractionReference"></div>
+    <div class="tool-actions">
+      <strong id="activityStatus">当前：1/4</strong>
+      <button type="button" data-next>换活动</button>
+    </div>
+  `;
 }
 
-document.querySelector("#nextPinyin").addEventListener("click", nextPinyinQuestion);
-renderPinyinQuestion();
-
-const wordPairs = [
-  ["大", "小"],
-  ["快", "慢"],
-  ["高", "低"],
-  ["冷", "热"],
-  ["开", "关"],
-  ["前", "后"],
-];
-let wordCards = [];
-let selectedWords = [];
-let matchedPairs = new Set();
-let wordMatchLocked = false;
-
-function resetWordMatch() {
-  wordCards = shuffle(
-    wordPairs.flatMap((pair, pairId) => pair.map((word) => ({ word, pairId }))),
-  );
-  selectedWords = [];
-  matchedPairs = new Set();
-  wordMatchLocked = false;
-  renderWordMatch();
-}
-
-function renderWordMatch() {
-  document.querySelector("#wordMatchGrid").innerHTML = wordCards
-    .map((card, index) => {
-      const selected = selectedWords.includes(index);
-      const matched = matchedPairs.has(card.pairId);
+function bindFraction(activity) {
+  const draw = () => {
+    const { denominator, filled } = activity.current;
+    activityPanel.querySelector("#fractionBuilder").innerHTML = Array.from({ length: denominator }, (_, index) =>
+      `<button class="fraction-segment ${index < filled ? "active" : ""}" type="button" data-fill="${index + 1}">${index + 1}</button>`,
+    ).join("");
+    activityPanel.querySelector("#fractionReference").innerHTML = [2, 3, 4, 6, 8].map((denominatorItem) => {
+      const activeCount = Math.round((filled / denominator) * denominatorItem);
       return `
-        <button class="match-card ${selected ? "selected" : ""} ${matched ? "matched" : ""}" type="button" data-index="${index}">
-          ${card.word}
-        </button>
+        <div class="fraction-row">
+          <strong>/${denominatorItem}</strong>
+          <div>${Array.from({ length: denominatorItem }, (_, index) => `<span class="${index < activeCount ? "active" : ""}"></span>`).join("")}</div>
+        </div>
       `;
-    })
-    .join("");
-  document.querySelector("#wordMatchStatus").textContent = `已配对：${matchedPairs.size}/${wordPairs.length}`;
-
-  document.querySelectorAll(".match-card").forEach((button) => {
+    }).join("");
+    activityPanel.querySelector("#activityStatus").textContent = `当前：${filled}/${denominator}`;
+    activityPanel.querySelectorAll("[data-fill]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activity.current.filled = Number(button.dataset.fill);
+        draw();
+      });
+    });
+  };
+  activityPanel.querySelectorAll("[data-denominator]").forEach((button) => {
     button.addEventListener("click", () => {
-      const index = Number(button.dataset.index);
-      const card = wordCards[index];
-      if (wordMatchLocked || matchedPairs.has(card.pairId) || selectedWords.includes(index)) return;
+      activity.current.denominator = Number(button.dataset.denominator);
+      activity.current.filled = 1;
+      activityPanel.querySelectorAll("[data-denominator]").forEach((item) => item.classList.toggle("active", item === button));
+      draw();
+    });
+  });
+  draw();
+}
 
-      selectedWords.push(index);
-      renderWordMatch();
+function getQuestion(activity) {
+  const index = runtime.quizIndex[activity.id] || 0;
+  return activity.questions[index % activity.questions.length];
+}
 
-      if (selectedWords.length === 2) {
-        const [first, second] = selectedWords.map((item) => wordCards[item]);
-        if (first.pairId === second.pairId) {
-          matchedPairs.add(first.pairId);
-          selectedWords = [];
-          renderWordMatch();
+function renderQuiz(activity) {
+  const question = getQuestion(activity);
+  return `
+    <div class="question-card">
+      <span>${activity.skill}</span>
+      <strong>${question.prompt}</strong>
+    </div>
+    <div class="option-grid">
+      ${shuffle(question.options).map((option) => `<button type="button" data-choice="${option}">${option}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">请选择答案</strong>
+      <button type="button" data-next>下一题</button>
+    </div>
+  `;
+}
+
+function bindQuiz(activity) {
+  const question = getQuestion(activity);
+  activityPanel.querySelectorAll("[data-choice]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const ok = button.dataset.choice === question.answer;
+      button.classList.add(ok ? "correct" : "wrong");
+      activityPanel.querySelector("#activityStatus").textContent = ok ? "答对了" : `再想想，正确答案是 ${question.answer}`;
+      if (ok) runtime.score[activity.id] = (runtime.score[activity.id] || 0) + 1;
+      playTone(ok);
+    });
+  });
+}
+
+function renderMatch(activity) {
+  const deck = shuffle(activity.pairs.flatMap((pair, pairId) => pair.map((text) => ({ text, pairId }))));
+  activity.current = { deck };
+  runtime.selected = [];
+  runtime.matched = new Set();
+  return `
+    <div class="match-grid">
+      ${deck.map((card, index) => `<button class="match-card" type="button" data-match="${index}">${card.text}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">已配对：0/${activity.pairs.length}</strong>
+      <button type="button" data-next>重新洗牌</button>
+    </div>
+  `;
+}
+
+function bindMatch(activity) {
+  activityPanel.querySelectorAll("[data-match]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.match);
+      const card = activity.current.deck[index];
+      if (runtime.matched.has(card.pairId) || runtime.selected.includes(index)) return;
+      runtime.selected.push(index);
+      button.classList.add("selected");
+      if (runtime.selected.length === 2) {
+        const cards = runtime.selected.map((item) => activity.current.deck[item]);
+        if (cards[0].pairId === cards[1].pairId) {
+          runtime.matched.add(cards[0].pairId);
+          runtime.selected.forEach((item) => activityPanel.querySelector(`[data-match="${item}"]`).classList.add("matched"));
+          runtime.selected = [];
+          runtime.score[activity.id] = runtime.matched.size;
+          activityPanel.querySelector("#activityStatus").textContent = `已配对：${runtime.matched.size}/${activity.pairs.length}`;
+          playTone(true);
         } else {
-          wordMatchLocked = true;
-          document.querySelector("#wordMatchStatus").textContent = "不是一对，再试一次";
+          activityPanel.querySelector("#activityStatus").textContent = "不是一对，再试一次";
+          playTone(false);
           window.setTimeout(() => {
-            selectedWords = [];
-            wordMatchLocked = false;
-            renderWordMatch();
-          }, 700);
+            runtime.selected.forEach((item) => activityPanel.querySelector(`[data-match="${item}"]`)?.classList.remove("selected"));
+            runtime.selected = [];
+          }, 600);
         }
       }
     });
   });
 }
 
-document.querySelector("#resetWordMatch").addEventListener("click", resetWordMatch);
-resetWordMatch();
-
-const symmetryGrid = document.querySelector("#symmetryGrid");
-const symmetryCells = new Set();
-
-function renderSymmetryGrid() {
-  symmetryGrid.innerHTML = Array.from({ length: 64 }, (_, index) => {
-    const row = Math.floor(index / 8);
-    const col = index % 8;
-    const mirrorCol = col < 4 ? col : 7 - col;
-    const active = symmetryCells.has(`${row}-${mirrorCol}`);
-    return `<button class="symmetry-cell ${active ? "active" : ""} ${col === 3 ? "axis-left" : ""} ${col === 4 ? "axis-right" : ""}" type="button" data-row="${row}" data-col="${col}"></button>`;
-  }).join("");
-
-  symmetryGrid.querySelectorAll(".symmetry-cell").forEach((cell) => {
-    cell.addEventListener("click", () => {
-      const row = Number(cell.dataset.row);
-      const col = Number(cell.dataset.col);
-      const mirrorCol = col < 4 ? col : 7 - col;
-      const key = `${row}-${mirrorCol}`;
-      if (symmetryCells.has(key)) {
-        symmetryCells.delete(key);
-      } else {
-        symmetryCells.add(key);
-      }
-      renderSymmetryGrid();
-    });
-  });
-
-  document.querySelector("#symmetryStatus").textContent = `已点亮 ${symmetryCells.size} 对`;
+function renderOrder(activity) {
+  runtime.built = [];
+  const tokens = shuffle(activity.target);
+  return `
+    <div class="build-target" id="buildTarget">请按顺序点击</div>
+    <div class="tile-bank">
+      ${tokens.map((token, index) => `<button type="button" data-token="${index}" data-value="${token}">${token}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">目标：${activity.target.length} 步</strong>
+      <button type="button" data-next>重来</button>
+    </div>
+  `;
 }
 
-document.querySelector("#clearSymmetry").addEventListener("click", () => {
-  symmetryCells.clear();
-  renderSymmetryGrid();
-});
-
-renderSymmetryGrid();
-
-const memoryItems = [
-  { key: "sun", label: "黄圆", symbol: "●", color: "#ffd166" },
-  { key: "sky", label: "蓝方", symbol: "■", color: "#1f7a8c" },
-  { key: "coral", label: "红星", symbol: "★", color: "#f25c54" },
-  { key: "leaf", label: "绿菱", symbol: "◆", color: "#2a9d8f" },
-  { key: "grape", label: "紫三角", symbol: "▲", color: "#7c3aed" },
-  { key: "ink", label: "黑月", symbol: "◐", color: "#17202a" },
-];
-let memoryDeck = [];
-let memoryRevealed = [];
-let memoryMatched = new Set();
-let memoryLocked = false;
-
-function resetMemory() {
-  memoryDeck = shuffle([...memoryItems, ...memoryItems]);
-  memoryRevealed = [];
-  memoryMatched = new Set();
-  memoryLocked = false;
-  renderMemory();
+function bindOrder(activity) {
+  bindBuilderLike(activity);
 }
 
-function renderMemory() {
-  document.querySelector("#memoryGrid").innerHTML = memoryDeck
-    .map((card, index) => {
-      const visible = memoryRevealed.includes(index) || memoryMatched.has(card.key);
-      return `
-        <button class="memory-card ${visible ? "revealed" : ""}" type="button" data-index="${index}" aria-label="${visible ? card.label : "未翻开的卡片"}">
-          <span style="color:${card.color}">${visible ? card.symbol : "?"}</span>
-        </button>
-      `;
-    })
-    .join("");
-  document.querySelector("#memoryStatus").textContent = `已找到：${memoryMatched.size}/${memoryItems.length}`;
+function renderBuilder(activity) {
+  runtime.built = [];
+  return `
+    <div class="build-target" id="buildTarget">请拼出：${activity.target.join(" ")}</div>
+    <div class="tile-bank">
+      ${shuffle(activity.target).map((token, index) => `<button type="button" data-token="${index}" data-value="${token}">${token}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">点击词卡开始</strong>
+      <button type="button" data-next>重来</button>
+    </div>
+  `;
+}
 
-  document.querySelectorAll(".memory-card").forEach((button) => {
+function bindBuilder(activity) {
+  bindBuilderLike(activity);
+}
+
+function bindBuilderLike(activity) {
+  activityPanel.querySelectorAll("[data-token]").forEach((button) => {
     button.addEventListener("click", () => {
-      const index = Number(button.dataset.index);
-      const card = memoryDeck[index];
-      if (memoryLocked || memoryMatched.has(card.key) || memoryRevealed.includes(index)) return;
-      memoryRevealed.push(index);
-      renderMemory();
-
-      if (memoryRevealed.length === 2) {
-        const [first, second] = memoryRevealed.map((item) => memoryDeck[item]);
-        if (first.key === second.key) {
-          memoryMatched.add(first.key);
-          memoryRevealed = [];
-          renderMemory();
-        } else {
-          memoryLocked = true;
-          window.setTimeout(() => {
-            memoryRevealed = [];
-            memoryLocked = false;
-            renderMemory();
-          }, 760);
-        }
+      runtime.built.push(button.dataset.value);
+      button.disabled = true;
+      activityPanel.querySelector("#buildTarget").textContent = runtime.built.join(" ");
+      const complete = runtime.built.length === activity.target.length;
+      if (complete) {
+        const ok = runtime.built.join("|") === activity.target.join("|");
+        activityPanel.querySelector("#activityStatus").textContent = ok ? "顺序正确" : "顺序不对，再试一次";
+        if (ok) runtime.score[activity.id] = (runtime.score[activity.id] || 0) + 1;
+        playTone(ok);
       }
     });
   });
 }
 
-document.querySelector("#resetMemory").addEventListener("click", resetMemory);
-resetMemory();
-
-const mazeLayout = [
-  [0, 0, 0, 1, 0],
-  [1, 1, 0, 1, 0],
-  [0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0],
-];
-const mazeGoal = { row: 4, col: 4 };
-const mazeStart = { row: 0, col: 0 };
-let mazePlayer = { ...mazeStart };
-let mazeSteps = 0;
-
-function renderMaze() {
-  document.querySelector("#mazeGrid").innerHTML = mazeLayout
-    .flatMap((row, rowIndex) =>
-      row.map((cell, colIndex) => {
-        const isPlayer = mazePlayer.row === rowIndex && mazePlayer.col === colIndex;
-        const isGoal = mazeGoal.row === rowIndex && mazeGoal.col === colIndex;
-        return `
-          <span class="maze-cell ${cell ? "wall" : ""} ${isGoal ? "goal" : ""} ${isPlayer ? "player" : ""}">
-            ${isPlayer ? "我" : isGoal ? "★" : ""}
-          </span>
-        `;
-      }),
-    )
-    .join("");
-
-  const finished = mazePlayer.row === mazeGoal.row && mazePlayer.col === mazeGoal.col;
-  document.querySelector("#mazeStatus").textContent = finished ? `到达终点，用了 ${mazeSteps} 步` : `已走 ${mazeSteps} 步`;
+function renderFlashcard(activity) {
+  const index = runtime.flashIndex[activity.id] || 0;
+  const card = activity.cards[index % activity.cards.length];
+  return `
+    <button class="flashcard" type="button" id="flashcard">
+      <span>${runtime.flashBack ? "背面" : "正面"}</span>
+      <strong>${runtime.flashBack ? card.back : card.front}</strong>
+    </button>
+    <div class="tool-actions">
+      <strong id="activityStatus">点击卡片翻面</strong>
+      <button type="button" id="nextCard">下一张</button>
+    </div>
+  `;
 }
 
-function moveMaze(direction) {
-  const deltas = {
-    up: [-1, 0],
-    down: [1, 0],
-    left: [0, -1],
-    right: [0, 1],
-  };
-  const [rowDelta, colDelta] = deltas[direction];
-  const next = {
-    row: mazePlayer.row + rowDelta,
-    col: mazePlayer.col + colDelta,
-  };
-  if (
-    next.row < 0 ||
-    next.row >= mazeLayout.length ||
-    next.col < 0 ||
-    next.col >= mazeLayout[0].length ||
-    mazeLayout[next.row][next.col] === 1
-  ) {
-    document.querySelector("#mazeStatus").textContent = "这里走不通，换个方向";
-    return;
-  }
-  mazePlayer = next;
-  mazeSteps += 1;
-  renderMaze();
-}
-
-document.querySelectorAll("[data-move]").forEach((button) => {
-  button.addEventListener("click", () => moveMaze(button.dataset.move));
-});
-
-document.querySelector("#resetMaze").addEventListener("click", () => {
-  mazePlayer = { ...mazeStart };
-  mazeSteps = 0;
-  renderMaze();
-});
-
-renderMaze();
-
-const canvas = document.querySelector("#paintCanvas");
-const ctx = canvas.getContext("2d");
-const swatches = document.querySelectorAll(".swatch");
-const brushSize = document.querySelector("#brushSize");
-let currentColor = "#1f7a8c";
-let isDrawing = false;
-let lastPoint = null;
-
-function resizeCanvas() {
-  const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-  const snapshot = document.createElement("canvas");
-  snapshot.width = canvas.width;
-  snapshot.height = canvas.height;
-  snapshot.getContext("2d").drawImage(canvas, 0, 0);
-
-  canvas.width = Math.max(320, Math.round(rect.width * ratio));
-  canvas.height = Math.max(240, Math.round(rect.height * ratio));
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.drawImage(snapshot, 0, 0, snapshot.width / ratio, snapshot.height / ratio);
-}
-
-function pointFromEvent(event) {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top,
-  };
-}
-
-function drawLine(point) {
-  if (!lastPoint) {
-    lastPoint = point;
-  }
-  ctx.strokeStyle = currentColor;
-  ctx.lineWidth = Number(brushSize.value);
-  ctx.beginPath();
-  ctx.moveTo(lastPoint.x, lastPoint.y);
-  ctx.lineTo(point.x, point.y);
-  ctx.stroke();
-  lastPoint = point;
-}
-
-canvas.addEventListener("pointerdown", (event) => {
-  isDrawing = true;
-  lastPoint = pointFromEvent(event);
-  canvas.setPointerCapture(event.pointerId);
-});
-
-canvas.addEventListener("pointermove", (event) => {
-  if (!isDrawing) return;
-  drawLine(pointFromEvent(event));
-});
-
-function stopDrawing() {
-  isDrawing = false;
-  lastPoint = null;
-}
-
-canvas.addEventListener("pointerup", stopDrawing);
-canvas.addEventListener("pointerleave", stopDrawing);
-
-swatches.forEach((swatch) => {
-  swatch.addEventListener("click", () => {
-    currentColor = swatch.dataset.color;
-    swatches.forEach((item) => item.classList.toggle("active", item === swatch));
+function bindFlashcard(activity) {
+  activityPanel.querySelector("#flashcard").addEventListener("click", () => {
+    runtime.flashBack = !runtime.flashBack;
+    renderActivity();
   });
-});
-
-document.querySelector("#clearCanvas").addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
-
-let audioContext = null;
-
-function playNote(frequency, button) {
-  const AudioEngine = window.AudioContext || window.webkitAudioContext;
-  if (!AudioEngine) {
-    button.classList.add("playing");
-    window.setTimeout(() => button.classList.remove("playing"), 180);
-    return;
-  }
-
-  audioContext = audioContext || new AudioEngine();
-  audioContext.resume?.();
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = "sine";
-  oscillator.frequency.value = frequency;
-  gain.gain.setValueAtTime(0.001, audioContext.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.24, audioContext.currentTime + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.42);
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.44);
-  button.classList.add("playing");
-  window.setTimeout(() => button.classList.remove("playing"), 180);
+  activityPanel.querySelector("#nextCard").addEventListener("click", () => {
+    runtime.flashIndex[activity.id] = (runtime.flashIndex[activity.id] || 0) + 1;
+    runtime.flashBack = false;
+    renderActivity();
+  });
 }
 
-document.querySelectorAll(".piano-tool button").forEach((button) => {
-  button.addEventListener("click", () => playNote(Number(button.dataset.note), button));
-});
-
-const timerDisplay = document.querySelector("#timerDisplay");
-const presetButtons = document.querySelectorAll(".timer-presets button");
-let timerSeconds = 180;
-let timerDefault = 180;
-let timerId = null;
+function renderTimer() {
+  runtime.timerSeconds = runtime.timerDefault;
+  return `
+    <div class="timer-display" id="timerDisplay">${formatTime(runtime.timerSeconds)}</div>
+    <div class="timer-presets">
+      <button type="button" data-minutes="1">1 分钟</button>
+      <button class="active" type="button" data-minutes="3">3 分钟</button>
+      <button type="button" data-minutes="5">5 分钟</button>
+    </div>
+    <div class="tool-actions">
+      <button type="button" id="startTimer">开始</button>
+      <button type="button" id="pauseTimer">暂停</button>
+      <button type="button" id="resetTimer">重置</button>
+    </div>
+  `;
+}
 
 function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60);
@@ -954,54 +993,251 @@ function formatTime(seconds) {
   return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
 }
 
-function renderTimer() {
-  timerDisplay.textContent = formatTime(timerSeconds);
+function bindTimer() {
+  const display = activityPanel.querySelector("#timerDisplay");
+  const render = () => {
+    display.textContent = formatTime(runtime.timerSeconds);
+  };
+  const pause = () => {
+    window.clearInterval(runtime.timerId);
+    runtime.timerId = null;
+  };
+  activityPanel.querySelectorAll("[data-minutes]").forEach((button) => {
+    button.addEventListener("click", () => {
+      pause();
+      runtime.timerDefault = Number(button.dataset.minutes) * 60;
+      runtime.timerSeconds = runtime.timerDefault;
+      activityPanel.querySelectorAll("[data-minutes]").forEach((item) => item.classList.toggle("active", item === button));
+      render();
+    });
+  });
+  activityPanel.querySelector("#startTimer").addEventListener("click", () => {
+    if (runtime.timerId) return;
+    runtime.timerId = window.setInterval(() => {
+      runtime.timerSeconds = Math.max(0, runtime.timerSeconds - 1);
+      render();
+      if (runtime.timerSeconds === 0) pause();
+    }, 1000);
+  });
+  activityPanel.querySelector("#pauseTimer").addEventListener("click", pause);
+  activityPanel.querySelector("#resetTimer").addEventListener("click", () => {
+    pause();
+    runtime.timerSeconds = runtime.timerDefault;
+    render();
+  });
 }
 
-function pauseTimer() {
-  window.clearInterval(timerId);
-  timerId = null;
+function renderSpinner(activity) {
+  return `
+    <div class="spinner-tool">
+      <div class="spinner-wheel" id="spinnerWheel">
+        ${activity.items.slice(0, 6).map((item) => `<span>${item}</span>`).join("")}
+      </div>
+      <div class="tool-actions">
+        <strong id="activityStatus">准备</strong>
+        <button type="button" id="spinButton">转一下</button>
+      </div>
+    </div>
+  `;
 }
 
-presetButtons.forEach((button) => {
+function bindSpinner(activity) {
+  let degrees = 0;
+  activityPanel.querySelector("#spinButton").addEventListener("click", () => {
+    const item = activity.items[Math.floor(Math.random() * activity.items.length)];
+    degrees += 1440 + Math.floor(Math.random() * 360);
+    activityPanel.querySelector("#spinnerWheel").style.transform = `rotate(${degrees}deg)`;
+    activityPanel.querySelector("#activityStatus").textContent = item;
+    playTone(true);
+  });
+}
+
+function renderPicker() {
+  return `
+    <textarea class="picker-input" id="pickerInput" rows="6">小明
+小红
+小宇
+小雨
+小安</textarea>
+    <div class="picker-result" id="pickerResult">准备点名</div>
+    <div class="tool-actions">
+      <strong>每行一个名字</strong>
+      <button type="button" id="pickName">随机抽取</button>
+    </div>
+  `;
+}
+
+function bindPicker() {
+  activityPanel.querySelector("#pickName").addEventListener("click", () => {
+    const names = activityPanel.querySelector("#pickerInput").value.split(/\n+/).map((item) => item.trim()).filter(Boolean);
+    const name = names[Math.floor(Math.random() * names.length)] || "请先输入名字";
+    activityPanel.querySelector("#pickerResult").textContent = name;
+    playTone(true);
+  });
+}
+
+function renderScoreboard() {
+  return `
+    <div class="scoreboard">
+      ${runtime.scoreboard.map((score, index) => `
+        <div class="team-score">
+          <strong>${index + 1} 组</strong>
+          <span>${score}</span>
+          <button type="button" data-team-plus="${index}">+1</button>
+          <button type="button" data-team-minus="${index}">-1</button>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function bindScoreboard() {
+  activityPanel.querySelectorAll("[data-team-plus]").forEach((button) => {
+    button.addEventListener("click", () => {
+      runtime.scoreboard[Number(button.dataset.teamPlus)] += 1;
+      renderActivity();
+    });
+  });
+  activityPanel.querySelectorAll("[data-team-minus]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.teamMinus);
+      runtime.scoreboard[index] = Math.max(0, runtime.scoreboard[index] - 1);
+      renderActivity();
+    });
+  });
+}
+
+function renderWhiteboard() {
+  return `
+    <div class="paint-toolbar">
+      <button class="swatch active" type="button" data-color="#1f7a8c" aria-label="蓝绿色"></button>
+      <button class="swatch" type="button" data-color="#f25c54" aria-label="红色"></button>
+      <button class="swatch" type="button" data-color="#ffd166" aria-label="黄色"></button>
+      <button type="button" id="clearCanvas">清空</button>
+    </div>
+    <canvas id="paintCanvas" width="920" height="420" aria-label="课堂白板"></canvas>
+  `;
+}
+
+function bindWhiteboard() {
+  const canvas = activityPanel.querySelector("#paintCanvas");
+  const ctx = canvas.getContext("2d");
+  let drawing = false;
+  let color = "#1f7a8c";
+  let last = null;
+
+  const resizeCanvas = () => {
+    const rect = canvas.getBoundingClientRect();
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = Math.max(320, Math.round(rect.width * ratio));
+    canvas.height = Math.max(240, Math.round(rect.height * ratio));
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+  };
+
+  const point = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  };
+
+  resizeCanvas();
+  activityPanel.querySelectorAll("[data-color]").forEach((button) => {
+    button.addEventListener("click", () => {
+      color = button.dataset.color;
+      activityPanel.querySelectorAll("[data-color]").forEach((item) => item.classList.toggle("active", item === button));
+    });
+  });
+  canvas.addEventListener("pointerdown", (event) => {
+    drawing = true;
+    last = point(event);
+    canvas.setPointerCapture(event.pointerId);
+  });
+  canvas.addEventListener("pointermove", (event) => {
+    if (!drawing) return;
+    const next = point(event);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.moveTo(last.x, last.y);
+    ctx.lineTo(next.x, next.y);
+    ctx.stroke();
+    last = next;
+  });
+  canvas.addEventListener("pointerup", () => {
+    drawing = false;
+    last = null;
+  });
+  activityPanel.querySelector("#clearCanvas").addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+}
+
+function bindActivity(activity) {
+  const binders = {
+    sum: bindSum,
+    hundred: bindHundred,
+    fraction: bindFraction,
+    quiz: bindQuiz,
+    match: bindMatch,
+    order: bindOrder,
+    flashcard: bindFlashcard,
+    builder: bindBuilder,
+    timer: bindTimer,
+    spinner: bindSpinner,
+    picker: bindPicker,
+    scoreboard: bindScoreboard,
+    whiteboard: bindWhiteboard,
+  };
+  binders[activity.type]?.(activity);
+
+  activityPanel.querySelectorAll("[data-next]").forEach((button) => {
+    button.addEventListener("click", () => {
+      runtime.quizIndex[activity.id] = (runtime.quizIndex[activity.id] || 0) + 1;
+      renderActivity();
+    });
+  });
+}
+
+function renderAll() {
+  renderFilters();
+  renderCards();
+  renderDaily();
+  renderTeacherRail();
+}
+
+searchForm.addEventListener("submit", (event) => event.preventDefault());
+searchInput.addEventListener("input", () => {
+  state.query = searchInput.value;
+  if (state.query.trim()) {
+    state.subject = "all";
+    state.grade = "all";
+    renderFilters();
+  }
+  renderCards();
+});
+
+document.querySelectorAll("[data-entry-subject]").forEach((button) => {
   button.addEventListener("click", () => {
-    pauseTimer();
-    timerDefault = Number(button.dataset.minutes) * 60;
-    timerSeconds = timerDefault;
-    presetButtons.forEach((item) => item.classList.toggle("active", item === button));
-    renderTimer();
+    state.subject = button.dataset.entrySubject;
+    state.grade = "all";
+    state.query = "";
+    searchInput.value = "";
+    renderAll();
+    document.querySelector("#games").scrollIntoView({ behavior: "smooth" });
   });
 });
 
-document.querySelector("#startTimer").addEventListener("click", () => {
-  if (timerId) return;
-  timerId = window.setInterval(() => {
-    timerSeconds = Math.max(0, timerSeconds - 1);
-    renderTimer();
-    if (timerSeconds === 0) pauseTimer();
-  }, 1000);
+document.querySelector("#soundToggle").addEventListener("click", (event) => {
+  state.sound = !state.sound;
+  event.currentTarget.textContent = state.sound ? "声音开" : "声音关";
+  event.currentTarget.setAttribute("aria-pressed", String(state.sound));
 });
 
-document.querySelector("#pauseTimer").addEventListener("click", pauseTimer);
-document.querySelector("#resetTimer").addEventListener("click", () => {
-  pauseTimer();
-  timerSeconds = timerDefault;
-  renderTimer();
+document.querySelector("#fullscreenButton").addEventListener("click", () => {
+  activityPanel.requestFullscreen?.();
 });
 
-renderTimer();
-
-const spinButton = document.querySelector("#spinButton");
-const spinnerWheel = document.querySelector("#spinnerWheel");
-const spinnerResult = document.querySelector("#spinnerResult");
-const spinnerItems = ["口算", "拼读", "画图", "讲述"];
-let spinCycles = 0;
-
-spinButton.addEventListener("click", () => {
-  const index = rand(0, spinnerItems.length - 1);
-  const segmentCenter = index * 90 + 45;
-  spinCycles += rand(4, 7);
-  const finalRotation = spinCycles * 360 - segmentCenter;
-  spinnerWheel.style.transform = `rotate(${finalRotation}deg)`;
-  spinnerResult.textContent = spinnerItems[index];
-});
+document.body.dataset.mode = state.mode;
+renderAll();
+renderActivity();

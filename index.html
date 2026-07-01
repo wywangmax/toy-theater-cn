@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>玩具学堂 | 中文儿童互动学习游戏</title>
+    <title>玩具学堂 | 小学互动学习游戏库</title>
     <meta
       name="description"
-      content="面向小学阶段孩子和课堂的中文互动学习游戏网站，包含数学、语文、艺术、音乐、益智和教师工具。"
+      content="面向小学孩子、家长和课堂的中文互动学习游戏库，覆盖数学、语文、基础英语和教师工具。"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="玩具学堂 | 中文儿童互动学习游戏" />
+    <meta property="og:title" content="玩具学堂 | 小学互动学习游戏库" />
     <meta
       property="og:description"
-      content="数学、语文、艺术、音乐和课堂工具集中在一个中文互动学习入口里。"
+      content="数学、语文、基础英语和课堂工具，打开就能玩的中文学习游戏库。"
     />
     <meta property="og:url" content="https://wywangmax.github.io/toy-theater-cn/" />
     <meta
@@ -36,320 +36,129 @@
         </span>
         <span class="brand-copy">
           <strong>玩具学堂</strong>
-          <small>中文互动学习游戏</small>
+          <small>小学互动学习游戏库</small>
         </span>
       </a>
 
       <nav class="top-nav" aria-label="主导航">
-        <a href="#games">游戏架</a>
+        <a href="#games">学科游戏</a>
+        <a href="#grades">按年级</a>
+        <a href="#teacherTools">老师工具</a>
         <a href="#playLab">试玩台</a>
-        <a href="#playLab" data-tool-link="timer">教师工具</a>
       </nav>
 
       <form class="header-search" role="search">
         <label for="siteSearch">搜索游戏</label>
-        <input id="siteSearch" type="search" placeholder="数学、拼音、画画" />
+        <input id="siteSearch" type="search" placeholder="英语、拼音、口算、计时器" />
       </form>
     </header>
 
     <main id="top">
       <section class="hero-band" aria-labelledby="heroTitle">
         <div class="hero-copy">
-          <p class="eyebrow">小学中文学习</p>
-          <h1 id="heroTitle">把课堂里的练习变成能玩的小游戏。</h1>
+          <p class="eyebrow">小学 · 中文 · 英语启蒙</p>
+          <h1 id="heroTitle">孩子像玩游戏一样练，老师像拿教具一样用。</h1>
           <p>
-            数学、语文、艺术、音乐和课堂工具集中在一个中文入口里，适合投屏、平板和手机使用。
+            覆盖数学、语文、基础英语和课堂工具。每个活动都能打开即用，适合投屏、平板、小组练习和家庭陪伴。
           </p>
           <div class="hero-actions" aria-label="快速入口">
-            <a href="#games">浏览游戏</a>
+            <a href="#games">浏览 30 个活动</a>
             <a href="#playLab">打开试玩台</a>
           </div>
         </div>
 
-        <section class="number-stage" aria-labelledby="numberHeroTitle">
+        <section class="daily-board" aria-labelledby="dailyTitle">
           <div class="stage-topline">
             <div>
-              <p class="eyebrow">今日游戏</p>
-              <h2 id="numberHeroTitle">数学泡泡</h2>
+              <p class="eyebrow">今日三连</p>
+              <h2 id="dailyTitle">数学 + 语文 + 英语</h2>
             </div>
             <div class="score-chip">
-              <span>星星</span>
-              <strong id="bubbleScore">0</strong>
+              <span>活动</span>
+              <strong>30</strong>
             </div>
           </div>
-
-          <div class="target-panel">
-            <span>目标数</span>
-            <strong id="bubbleTarget">10</strong>
-          </div>
-
-          <div class="bubble-board" id="bubbleBoard" aria-label="数学泡泡数字选项"></div>
-
-          <div class="bubble-footer">
-            <span id="bubbleStatus" aria-live="polite">选中的和：0</span>
-            <button type="button" id="newBubbleRound">换一题</button>
-          </div>
+          <div class="daily-list" id="dailyList" aria-label="今日推荐"></div>
         </section>
       </section>
 
-      <section class="category-strip" aria-label="学习分类">
-        <button class="filter-chip active" type="button" data-filter="all">全部</button>
-        <button class="filter-chip" type="button" data-filter="math">数学</button>
-        <button class="filter-chip" type="button" data-filter="language">语文</button>
-        <button class="filter-chip" type="button" data-filter="art">艺术</button>
-        <button class="filter-chip" type="button" data-filter="music">音乐</button>
-        <button class="filter-chip" type="button" data-filter="logic">益智</button>
-        <button class="filter-chip" type="button" data-filter="teacher">教师工具</button>
+      <section class="entry-band" aria-label="学习入口">
+        <button class="entry-card" type="button" data-entry-subject="math">
+          <span>数学</span>
+          <strong>数感、口算、分数、时钟</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="chinese">
+          <span>语文</span>
+          <strong>拼音、识字、词语、古诗</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="english">
+          <span>基础英语</span>
+          <strong>字母、自然拼读、单词、句子</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="teacher">
+          <span>教师工具</span>
+          <strong>计时、转盘、点名、计分</strong>
+        </button>
+      </section>
+
+      <section class="filter-section" id="grades" aria-label="筛选活动">
+        <div>
+          <p class="eyebrow">按学科</p>
+          <div class="chip-row" id="subjectFilters"></div>
+        </div>
+        <div>
+          <p class="eyebrow">按年级</p>
+          <div class="chip-row" id="gradeFilters"></div>
+        </div>
+        <div>
+          <p class="eyebrow">使用模式</p>
+          <div class="chip-row" id="modeFilters">
+            <button class="filter-chip active" type="button" data-mode="child">孩子模式</button>
+            <button class="filter-chip" type="button" data-mode="teacher">老师模式</button>
+          </div>
+        </div>
       </section>
 
       <section class="games-section" id="games" aria-labelledby="gamesTitle">
         <div class="section-head">
           <div>
-            <p class="eyebrow">游戏架</p>
-            <h2 id="gamesTitle">中文游戏架</h2>
+            <p class="eyebrow">游戏库</p>
+            <h2 id="gamesTitle">30 个核心活动</h2>
           </div>
-          <p id="gameCount" aria-live="polite">12 个游戏</p>
+          <p id="gameCount" aria-live="polite">30 个活动</p>
         </div>
         <div class="game-grid" id="gameGrid"></div>
+      </section>
+
+      <section class="teacher-band" id="teacherTools" aria-labelledby="teacherToolsTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Teacher Tools</p>
+            <h2 id="teacherToolsTitle">老师上课常用</h2>
+          </div>
+          <p>投屏、大字号、少等待，适合 3 分钟课堂活动。</p>
+        </div>
+        <div class="tool-rail" id="teacherRail"></div>
       </section>
 
       <section class="lab-section" id="playLab" aria-labelledby="labTitle">
         <div class="section-head">
           <div>
             <p class="eyebrow">试玩台</p>
-            <h2 id="labTitle">试玩台</h2>
+            <h2 id="labTitle">打开即玩</h2>
           </div>
-          <div class="lab-tabs" aria-label="选择试玩工具">
-            <button class="lab-tab active" type="button" data-tool="bubble">数学泡泡</button>
-            <button class="lab-tab" type="button" data-tool="hundred">百数表</button>
-            <button class="lab-tab" type="button" data-tool="fraction">分数条</button>
-            <button class="lab-tab" type="button" data-tool="pinyin">拼音火车</button>
-            <button class="lab-tab" type="button" data-tool="wordmatch">词语配对</button>
-            <button class="lab-tab" type="button" data-tool="paint">画板</button>
-            <button class="lab-tab" type="button" data-tool="symmetry">对称花园</button>
-            <button class="lab-tab" type="button" data-tool="piano">节奏琴</button>
-            <button class="lab-tab" type="button" data-tool="memory">图形记忆</button>
-            <button class="lab-tab" type="button" data-tool="maze">迷宫路径</button>
-            <button class="lab-tab" type="button" data-tool="timer">计时器</button>
-            <button class="lab-tab" type="button" data-tool="spinner">转盘</button>
+          <div class="play-actions">
+            <button type="button" id="soundToggle" aria-pressed="true">声音开</button>
+            <button type="button" id="fullscreenButton">全屏</button>
           </div>
         </div>
 
-        <div class="tool-panel active" id="tool-bubble" data-tool-panel="bubble">
-          <div class="tool-copy">
-            <h3>数学泡泡</h3>
-            <p>凑出目标数，连续答对会自动进入下一题。</p>
-          </div>
-          <div class="mini-number-stage">
-            <div class="mini-target">
-              <span>目标</span>
-              <strong id="labBubbleTarget">10</strong>
-            </div>
-            <div class="bubble-board compact" id="labBubbleBoard"></div>
-            <div class="tool-actions">
-              <span id="labBubbleStatus" aria-live="polite">选中的和：0</span>
-              <button type="button" id="labNewBubbleRound">换一题</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-hundred" data-tool-panel="hundred">
-          <div class="tool-copy">
-            <h3>百数表</h3>
-            <p>用高亮模式观察数字规律。</p>
-          </div>
-          <div class="hundred-tool">
-            <div class="segmented" aria-label="百数表模式">
-              <button class="active" type="button" data-mode="all">全部</button>
-              <button type="button" data-mode="even">偶数</button>
-              <button type="button" data-mode="five">5 的倍数</button>
-              <button type="button" data-mode="prime">质数</button>
-            </div>
-            <div class="hundred-grid" id="hundredGrid" aria-label="1 到 100 百数表"></div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-fraction" data-tool-panel="fraction">
-          <div class="tool-copy">
-            <h3>分数条</h3>
-            <p>点亮分数条上的小格，观察不同分数的大小。</p>
-          </div>
-          <div class="fraction-tool">
-            <div class="segmented" aria-label="选择分母">
-              <button class="active" type="button" data-denominator="2">二分</button>
-              <button type="button" data-denominator="3">三分</button>
-              <button type="button" data-denominator="4">四分</button>
-              <button type="button" data-denominator="6">六分</button>
-              <button type="button" data-denominator="8">八分</button>
-            </div>
-            <div class="fraction-builder" id="fractionBuilder" aria-label="分数条选择区"></div>
-            <div class="fraction-reference" id="fractionReference" aria-label="分数参考条"></div>
-            <div class="tool-actions">
-              <strong id="fractionStatus" aria-live="polite">当前：1/2</strong>
-              <button type="button" id="resetFraction">清空</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-pinyin" data-tool-panel="pinyin">
-          <div class="tool-copy">
-            <h3>拼音火车</h3>
-            <p>看车厢里的声母、韵母和声调，选出正确汉字。</p>
-          </div>
-          <div class="pinyin-tool">
-            <div class="train-line" aria-label="拼音火车">
-              <span id="pinyinInitial">b</span>
-              <span id="pinyinFinal">ao</span>
-              <span id="pinyinTone">一声</span>
-            </div>
-            <div class="option-grid" id="pinyinChoices" aria-label="汉字选项"></div>
-            <div class="tool-actions">
-              <strong id="pinyinStatus" aria-live="polite">选出正确汉字</strong>
-              <button type="button" id="nextPinyin">下一题</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-wordmatch" data-tool-panel="wordmatch">
-          <div class="tool-copy">
-            <h3>词语配对</h3>
-            <p>每次翻两个词，找到它们的反义词搭档。</p>
-          </div>
-          <div class="wordmatch-tool">
-            <div class="match-grid" id="wordMatchGrid" aria-label="词语配对卡片"></div>
-            <div class="tool-actions">
-              <strong id="wordMatchStatus" aria-live="polite">已配对：0/6</strong>
-              <button type="button" id="resetWordMatch">重来</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-paint" data-tool-panel="paint">
-          <div class="tool-copy">
-            <h3>自由画板</h3>
-            <p>适合做对称、图案和颜色练习。</p>
-          </div>
-          <div class="paint-tool">
-            <div class="paint-toolbar" aria-label="画板工具">
-              <button class="swatch active" type="button" data-color="#1f7a8c" aria-label="蓝绿色"></button>
-              <button class="swatch" type="button" data-color="#f25c54" aria-label="珊瑚红"></button>
-              <button class="swatch" type="button" data-color="#ffd166" aria-label="黄色"></button>
-              <button class="swatch" type="button" data-color="#7c3aed" aria-label="紫色"></button>
-              <label class="brush-label" for="brushSize">笔刷</label>
-              <input id="brushSize" type="range" min="2" max="22" value="8" />
-              <button type="button" id="clearCanvas">清空</button>
-            </div>
-            <canvas id="paintCanvas" width="920" height="460" aria-label="自由绘画画布"></canvas>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-symmetry" data-tool-panel="symmetry">
-          <div class="tool-copy">
-            <h3>对称花园</h3>
-            <p>点左边的格子，右边会自动长出对称图案。</p>
-          </div>
-          <div class="symmetry-tool">
-            <div class="symmetry-grid" id="symmetryGrid" aria-label="对称图案格子"></div>
-            <div class="tool-actions">
-              <strong id="symmetryStatus" aria-live="polite">已点亮 0 对</strong>
-              <button type="button" id="clearSymmetry">清空</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-piano" data-tool-panel="piano">
-          <div class="tool-copy">
-            <h3>节奏琴</h3>
-            <p>用七个音阶做节奏和听辨练习。</p>
-          </div>
-          <div class="piano-tool" aria-label="节奏琴">
-            <button type="button" data-note="261.63">do</button>
-            <button type="button" data-note="293.66">re</button>
-            <button type="button" data-note="329.63">mi</button>
-            <button type="button" data-note="349.23">fa</button>
-            <button type="button" data-note="392.00">sol</button>
-            <button type="button" data-note="440.00">la</button>
-            <button type="button" data-note="493.88">si</button>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-memory" data-tool-panel="memory">
-          <div class="tool-copy">
-            <h3>图形记忆</h3>
-            <p>翻开卡片，找出相同颜色和形状的组合。</p>
-          </div>
-          <div class="memory-tool">
-            <div class="memory-grid" id="memoryGrid" aria-label="图形记忆卡片"></div>
-            <div class="tool-actions">
-              <strong id="memoryStatus" aria-live="polite">已找到：0/6</strong>
-              <button type="button" id="resetMemory">重新洗牌</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-maze" data-tool-panel="maze">
-          <div class="tool-copy">
-            <h3>迷宫路径</h3>
-            <p>用方向按钮走到星星终点，练习顺序和空间判断。</p>
-          </div>
-          <div class="maze-tool">
-            <div class="maze-grid" id="mazeGrid" aria-label="迷宫棋盘"></div>
-            <div class="maze-controls" aria-label="方向控制">
-              <button type="button" data-move="up">上</button>
-              <button type="button" data-move="left">左</button>
-              <button type="button" data-move="right">右</button>
-              <button type="button" data-move="down">下</button>
-            </div>
-            <div class="tool-actions">
-              <strong id="mazeStatus" aria-live="polite">从起点出发</strong>
-              <button type="button" id="resetMaze">回到起点</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-timer" data-tool-panel="timer">
-          <div class="tool-copy">
-            <h3>课堂计时器</h3>
-            <p>适合小组讨论、口算和收纳时间。</p>
-          </div>
-          <div class="timer-tool" id="teacherTools">
-            <div class="timer-display" id="timerDisplay" aria-live="polite">03:00</div>
-            <div class="timer-presets" aria-label="计时预设">
-              <button type="button" data-minutes="1">1 分钟</button>
-              <button class="active" type="button" data-minutes="3">3 分钟</button>
-              <button type="button" data-minutes="5">5 分钟</button>
-            </div>
-            <div class="tool-actions">
-              <button type="button" id="startTimer">开始</button>
-              <button type="button" id="pauseTimer">暂停</button>
-              <button type="button" id="resetTimer">重置</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-panel" id="tool-spinner" data-tool-panel="spinner">
-          <div class="tool-copy">
-            <h3>课堂转盘</h3>
-            <p>随机选择练习主题或小组任务。</p>
-          </div>
-          <div class="spinner-tool">
-            <div class="spinner-wheel" id="spinnerWheel" aria-label="课堂转盘">
-              <span>口算</span>
-              <span>拼读</span>
-              <span>画图</span>
-              <span>讲述</span>
-            </div>
-            <div class="tool-actions">
-              <strong id="spinnerResult" aria-live="polite">准备</strong>
-              <button type="button" id="spinButton">转一下</button>
-            </div>
-          </div>
-        </div>
+        <article class="play-shell" id="activityPanel" aria-live="polite"></article>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>玩具学堂 · 中文儿童互动学习游戏库</p>
+      <p>玩具学堂 · 数学 / 语文 / 基础英语 / 教师工具</p>
       <a href="#top">回到顶部</a>
     </footer>
 
