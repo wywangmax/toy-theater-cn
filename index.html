@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>玩具学堂 | 小学互动学习游戏库</title>
+    <title>玩具学堂 | 中文互动学习游戏</title>
     <meta
       name="description"
-      content="面向小学孩子、家长和课堂的中文互动学习游戏库，覆盖数学、语文、基础英语和教师工具。"
+      content="一个中文版互动学习游戏入口，覆盖数学、语文、基础英语、艺术、音乐、益智游戏和教师工具。"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="玩具学堂 | 小学互动学习游戏库" />
+    <meta property="og:title" content="玩具学堂 | 中文互动学习游戏" />
     <meta
       property="og:description"
-      content="数学、语文、基础英语和课堂工具，打开就能玩的中文学习游戏库。"
+      content="像玩具一样排列的中文互动学习游戏，打开就能玩。"
     />
     <meta property="og:url" content="https://wywangmax.github.io/toy-theater-cn/" />
     <meta
@@ -36,82 +36,84 @@
         </span>
         <span class="brand-copy">
           <strong>玩具学堂</strong>
-          <small>小学互动学习游戏库</small>
+          <small>中文互动游戏</small>
         </span>
       </a>
 
       <nav class="top-nav" aria-label="主导航">
-        <a href="#games">学科游戏</a>
-        <a href="#grades">按年级</a>
-        <a href="#teacherTools">老师工具</a>
-        <a href="#playLab">试玩台</a>
+        <a href="#featured">推荐</a>
+        <a href="#games">全部游戏</a>
+        <a href="#teacherTools">教师工具</a>
+        <a href="#playLab">开始玩</a>
       </nav>
 
       <form class="header-search" role="search">
         <label for="siteSearch">搜索游戏</label>
-        <input id="siteSearch" type="search" placeholder="英语、拼音、口算、计时器" />
+        <input id="siteSearch" type="search" placeholder="搜索：分数、拼音、钢琴、迷宫" />
       </form>
     </header>
 
     <main id="top">
       <section class="hero-band" aria-labelledby="heroTitle">
-        <div class="hero-copy">
-          <p class="eyebrow">小学 · 中文 · 英语启蒙</p>
-          <h1 id="heroTitle">孩子像玩游戏一样练，老师像拿教具一样用。</h1>
-          <p>
-            覆盖数学、语文、基础英语和课堂工具。每个活动都能打开即用，适合投屏、平板、小组练习和家庭陪伴。
-          </p>
-          <div class="hero-actions" aria-label="快速入口">
-            <a href="#games">浏览 30 个活动</a>
-            <a href="#playLab">打开试玩台</a>
-          </div>
+        <div class="hero-logo" aria-hidden="true">
+          <span>玩</span>
+          <span>具</span>
+          <span>学</span>
+          <span>堂</span>
         </div>
-
-        <section class="daily-board" aria-labelledby="dailyTitle">
-          <div class="stage-topline">
-            <div>
-              <p class="eyebrow">今日三连</p>
-              <h2 id="dailyTitle">数学 + 语文 + 英语</h2>
-            </div>
-            <div class="score-chip">
-              <span>活动</span>
-              <strong>30</strong>
-            </div>
-          </div>
-          <div class="daily-list" id="dailyList" aria-label="今日推荐"></div>
-        </section>
+        <div class="hero-copy">
+          <p class="eyebrow">中文版 · 免费互动学习游戏</p>
+          <h1 id="heroTitle">点一个小玩具，马上开始玩。</h1>
+          <p>数学、语文、基础英语、艺术、音乐、益智和课堂工具都放在一面游戏墙里。</p>
+        </div>
       </section>
 
       <section class="entry-band" aria-label="学习入口">
         <button class="entry-card" type="button" data-entry-subject="math">
           <span>数学</span>
-          <strong>数感、口算、分数、时钟</strong>
+          <strong>Math</strong>
         </button>
         <button class="entry-card" type="button" data-entry-subject="chinese">
           <span>语文</span>
-          <strong>拼音、识字、词语、古诗</strong>
+          <strong>Language</strong>
         </button>
         <button class="entry-card" type="button" data-entry-subject="english">
-          <span>基础英语</span>
-          <strong>字母、自然拼读、单词、句子</strong>
+          <span>英语</span>
+          <strong>English</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="art">
+          <span>艺术</span>
+          <strong>Art</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="music">
+          <span>音乐</span>
+          <strong>Music</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="puzzle">
+          <span>益智</span>
+          <strong>Puzzles</strong>
+        </button>
+        <button class="entry-card" type="button" data-entry-subject="game">
+          <span>游戏</span>
+          <strong>Games</strong>
         </button>
         <button class="entry-card" type="button" data-entry-subject="teacher">
           <span>教师工具</span>
-          <strong>计时、转盘、点名、计分</strong>
+          <strong>Tools</strong>
         </button>
       </section>
 
       <section class="filter-section" id="grades" aria-label="筛选活动">
         <div>
-          <p class="eyebrow">按学科</p>
+          <p class="eyebrow">分类</p>
           <div class="chip-row" id="subjectFilters"></div>
         </div>
         <div>
-          <p class="eyebrow">按年级</p>
+          <p class="eyebrow">年级</p>
           <div class="chip-row" id="gradeFilters"></div>
         </div>
         <div>
-          <p class="eyebrow">使用模式</p>
+          <p class="eyebrow">模式</p>
           <div class="chip-row" id="modeFilters">
             <button class="filter-chip active" type="button" data-mode="child">孩子模式</button>
             <button class="filter-chip" type="button" data-mode="teacher">老师模式</button>
@@ -119,13 +121,23 @@
         </div>
       </section>
 
+      <section class="featured-section" id="featured" aria-labelledby="featuredTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Featured</p>
+            <h2 id="featuredTitle">推荐游戏</h2>
+          </div>
+        </div>
+        <div class="daily-list" id="dailyList" aria-label="推荐游戏"></div>
+      </section>
+
       <section class="games-section" id="games" aria-labelledby="gamesTitle">
         <div class="section-head">
           <div>
-            <p class="eyebrow">游戏库</p>
-            <h2 id="gamesTitle">30 个核心活动</h2>
+            <p class="eyebrow">Game Shelf</p>
+            <h2 id="gamesTitle">全部游戏</h2>
           </div>
-          <p id="gameCount" aria-live="polite">30 个活动</p>
+          <p id="gameCount" aria-live="polite">全部游戏</p>
         </div>
         <div class="game-grid" id="gameGrid"></div>
       </section>
@@ -136,7 +148,7 @@
             <p class="eyebrow">Teacher Tools</p>
             <h2 id="teacherToolsTitle">老师上课常用</h2>
           </div>
-          <p>投屏、大字号、少等待，适合 3 分钟课堂活动。</p>
+          <p>投屏、大字号、少等待。</p>
         </div>
         <div class="tool-rail" id="teacherRail"></div>
       </section>
@@ -144,8 +156,8 @@
       <section class="lab-section" id="playLab" aria-labelledby="labTitle">
         <div class="section-head">
           <div>
-            <p class="eyebrow">试玩台</p>
-            <h2 id="labTitle">打开即玩</h2>
+            <p class="eyebrow">Play</p>
+            <h2 id="labTitle">开始玩</h2>
           </div>
           <div class="play-actions">
             <button type="button" id="soundToggle" aria-pressed="true">声音开</button>
@@ -158,7 +170,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>玩具学堂 · 数学 / 语文 / 基础英语 / 教师工具</p>
+      <p>玩具学堂 · 数学 / 语文 / 英语 / 艺术 / 音乐 / 益智 / 游戏 / 教师工具</p>
       <a href="#top">回到顶部</a>
     </footer>
 

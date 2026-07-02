@@ -2,7 +2,11 @@ const subjects = {
   all: "全部",
   math: "数学",
   chinese: "语文",
-  english: "基础英语",
+  english: "英语",
+  art: "艺术",
+  music: "音乐",
+  puzzle: "益智",
+  game: "游戏",
   teacher: "教师工具",
 };
 
@@ -352,6 +356,148 @@ const activities = [
     target: ["I", "like", "apples"],
   },
   {
+    id: "free-draw",
+    title: "自由画板",
+    subject: "art",
+    grade: "all",
+    type: "whiteboard",
+    skill: "涂鸦创作",
+    teacherNote: "适合让孩子画图解释想法，或做课堂快速板书。",
+    description: "拿起画笔，直接在画布上涂鸦。",
+  },
+  {
+    id: "color-mix",
+    title: "颜色混合",
+    subject: "art",
+    grade: "lower",
+    type: "quiz",
+    skill: "颜色认知",
+    teacherNote: "先让学生预测混合结果，再选择答案。",
+    description: "猜一猜两种颜色混合后会变成什么。",
+    questions: [
+      { prompt: "红色 + 黄色 = ?", answer: "橙色", options: ["橙色", "绿色", "紫色", "黑色"] },
+      { prompt: "蓝色 + 黄色 = ?", answer: "绿色", options: ["粉色", "绿色", "白色", "棕色"] },
+      { prompt: "红色 + 蓝色 = ?", answer: "紫色", options: ["紫色", "橙色", "灰色", "黄色"] },
+    ],
+  },
+  {
+    id: "shape-pattern",
+    title: "图案积木",
+    subject: "art",
+    grade: "lower",
+    type: "order",
+    skill: "图形规律",
+    teacherNote: "让学生说出图案的重复规律。",
+    description: "把图形排成正确的重复图案。",
+    target: ["●", "▲", "●", "▲"],
+  },
+  {
+    id: "rhythm-piano",
+    title: "小钢琴",
+    subject: "music",
+    grade: "all",
+    type: "piano",
+    skill: "音阶感知",
+    teacherNote: "适合做节奏模仿和音高听辨。",
+    description: "按下琴键，听一听不同音高。",
+  },
+  {
+    id: "beat-order",
+    title: "节奏排序",
+    subject: "music",
+    grade: "lower",
+    type: "order",
+    skill: "节奏记忆",
+    teacherNote: "拍手读出节奏，再让孩子复原。",
+    description: "把节奏卡按顺序排好。",
+    target: ["拍", "停", "拍", "拍"],
+  },
+  {
+    id: "shape-memory",
+    title: "图形记忆",
+    subject: "puzzle",
+    grade: "lower",
+    type: "match",
+    skill: "观察记忆",
+    teacherNote: "适合训练专注力和视觉记忆。",
+    description: "翻开卡片，找到相同图形。",
+    pairs: [
+      ["●", "●"],
+      ["▲", "▲"],
+      ["■", "■"],
+      ["★", "★"],
+      ["◆", "◆"],
+      ["☀", "☀"],
+    ],
+  },
+  {
+    id: "maze-route",
+    title: "迷宫路线",
+    subject: "puzzle",
+    grade: "middle",
+    type: "quiz",
+    skill: "空间推理",
+    teacherNote: "让孩子先用手指走一遍路线，再作答。",
+    description: "选择能到达星星的路线。",
+    questions: [
+      { prompt: "从起点到星星：右、右、下、下，终点是？", answer: "星星", options: ["星星", "墙", "水坑", "起点"] },
+      { prompt: "先上 1 格，再右 2 格，最后下 1 格，这是？", answer: "绕路", options: ["直线", "绕路", "原地", "倒退"] },
+      { prompt: "遇到墙应该？", answer: "换方向", options: ["穿过去", "换方向", "停一整局", "回首页"] },
+    ],
+  },
+  {
+    id: "logic-blocks",
+    title: "逻辑积木",
+    subject: "puzzle",
+    grade: "middle",
+    type: "builder",
+    skill: "顺序推理",
+    teacherNote: "适合做算法启蒙：先后、重复、条件。",
+    description: "把指令积木按正确顺序拼好。",
+    target: ["前进", "右转", "前进", "得星"],
+  },
+  {
+    id: "fruit-fall",
+    title: "水果掉落",
+    subject: "game",
+    grade: "lower",
+    type: "quiz",
+    skill: "快速反应",
+    teacherNote: "可以当作课前 2 分钟热身。",
+    description: "看题目，快速抓住正确水果。",
+    questions: [
+      { prompt: "哪一个是 apple？", answer: "苹果", options: ["苹果", "香蕉", "梨", "葡萄"] },
+      { prompt: "哪一个是 yellow？", answer: "香蕉", options: ["草莓", "香蕉", "蓝莓", "西瓜"] },
+      { prompt: "两个苹果再来一个，一共？", answer: "3", options: ["2", "3", "4", "5"] },
+    ],
+  },
+  {
+    id: "feed-freddy",
+    title: "喂小怪",
+    subject: "game",
+    grade: "lower",
+    type: "quiz",
+    skill: "口算投喂",
+    teacherNote: "答对才能投喂，适合口算游戏化。",
+    description: "算对题目，把食物喂给小怪。",
+    questions: [
+      { prompt: "小怪要吃 4 + 5", answer: "9", options: ["8", "9", "10", "11"] },
+      { prompt: "小怪要吃 12 - 7", answer: "5", options: ["4", "5", "6", "7"] },
+      { prompt: "小怪要吃 3 × 4", answer: "12", options: ["7", "10", "12", "14"] },
+    ],
+  },
+  {
+    id: "spin-star",
+    title: "星星转盘",
+    subject: "game",
+    grade: "all",
+    type: "spinner",
+    skill: "随机挑战",
+    teacherNote: "适合随机选挑战题，课堂气氛会更轻。",
+    description: "转一下，抽一个小挑战。",
+    items: ["口算", "拼词", "朗读", "画图", "拍手", "找规律"],
+  },
+  {
     id: "class-timer",
     title: "课堂计时器",
     subject: "teacher",
@@ -485,23 +631,97 @@ function playTone(ok = true) {
   oscillator.stop(audio.currentTime + 0.2);
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  })[char]);
+}
+
 function cardArt(activity) {
   const palette = {
-    math: ["#dff3f6", "#1f7a8c"],
-    chinese: ["#ffe4e1", "#f25c54"],
-    english: ["#dff6ed", "#2a9d8f"],
-    teacher: ["#fff2c6", "#ad7a28"],
+    math: ["#cceaf6", "#1d7dc2", "#f7c948"],
+    chinese: ["#ffd7d2", "#ef4f43", "#ffffff"],
+    english: ["#d9f4e6", "#00a676", "#ffd166"],
+    art: ["#ffe3f1", "#d84797", "#80d6ff"],
+    music: ["#f5e6ff", "#7c3aed", "#ffd166"],
+    puzzle: ["#fff1bf", "#f2a900", "#8bd3dd"],
+    game: ["#dff4ff", "#1f9bb4", "#ff6b6b"],
+    teacher: ["#fff2c6", "#ad7a28", "#ffffff"],
   };
-  const [bg, accent] = palette[activity.subject] || palette.math;
-  const short = activity.title.slice(0, 2);
+  const icons = {
+    sum: "+",
+    hundred: "100",
+    fraction: "1/2",
+    quiz: "?",
+    match: "配",
+    order: "序",
+    flashcard: "卡",
+    builder: "ABC",
+    timer: "⏱",
+    spinner: "转",
+    picker: "名",
+    scoreboard: "分",
+    whiteboard: "画",
+    piano: "♪",
+  };
+  const activityIcons = {
+    "math-bubble": "+",
+    "hundred-chart": "100",
+    "fraction-bars": "1/2",
+    multiplication: "×",
+    "clock-time": "时",
+    "money-change": "¥",
+    "shape-sort": "▲",
+    "number-line": "0-9",
+    "pinyin-train": "拼",
+    "pinyin-match": "b",
+    "hanzi-cards": "字",
+    "word-pairs": "反",
+    "idiom-puzzle": "成",
+    "poem-order": "诗",
+    "measure-words": "量",
+    "picture-sentence": "句",
+    "letter-match": "Aa",
+    "alphabet-order": "ABC",
+    "initial-sound": "A",
+    "cvc-builder": "CVC",
+    "sight-words": "can",
+    "word-cards": "cat",
+    "color-number": "red",
+    "sentence-builder": "I",
+    "free-draw": "画",
+    "color-mix": "色",
+    "shape-pattern": "●▲",
+    "rhythm-piano": "♪",
+    "beat-order": "拍",
+    "shape-memory": "★",
+    "maze-route": "路",
+    "logic-blocks": "积",
+    "fruit-fall": "果",
+    "feed-freddy": "喂",
+    "spin-star": "★",
+    "class-timer": "⏱",
+    "class-spinner": "转",
+    "name-picker": "名",
+    scoreboard: "分",
+    "card-board": "卡",
+    whiteboard: "板",
+  };
+  const [bg, accent, pop] = palette[activity.subject] || palette.math;
+  const icon = escapeHtml(activityIcons[activity.id] || icons[activity.type] || activity.title.slice(0, 1));
+  const iconSize = icon.length > 2 ? 25 : icon.length > 1 ? 31 : 42;
   return `
-    <svg viewBox="0 0 260 150" aria-hidden="true">
-      <rect width="260" height="150" fill="${bg}"/>
-      <circle cx="76" cy="76" r="36" fill="#ffd166" stroke="#17202a" stroke-width="6"/>
-      <rect x="126" y="42" width="74" height="66" rx="12" fill="${accent}" stroke="#17202a" stroke-width="6"/>
-      <path d="M66 112h132" stroke="#17202a" stroke-width="6" stroke-linecap="round"/>
-      <text x="76" y="88" text-anchor="middle" font-size="24" font-weight="900" fill="#17202a">${short}</text>
-      <text x="163" y="84" text-anchor="middle" font-size="28" font-weight="900" fill="#fff">${subjectLabel(activity.subject).slice(0, 1)}</text>
+    <svg viewBox="0 0 160 160" aria-hidden="true">
+      <rect x="8" y="8" width="144" height="144" rx="24" fill="${bg}" stroke="#22313f" stroke-width="5"/>
+      <circle cx="54" cy="55" r="25" fill="${pop}" stroke="#22313f" stroke-width="5"/>
+      <rect x="75" y="60" width="54" height="48" rx="12" fill="${accent}" stroke="#22313f" stroke-width="5"/>
+      <circle cx="122" cy="34" r="10" fill="#ffffff" stroke="#22313f" stroke-width="4"/>
+      <path d="M38 120h84" stroke="#22313f" stroke-width="6" stroke-linecap="round"/>
+      <text x="80" y="94" text-anchor="middle" dominant-baseline="middle" font-size="${iconSize}" font-weight="900" fill="#22313f" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif">${icon}</text>
     </svg>
   `;
 }
@@ -558,7 +778,7 @@ function filteredActivities() {
 
 function renderCards() {
   const list = filteredActivities();
-  gameCount.textContent = `${list.length} 个活动`;
+  gameCount.textContent = `${list.length} 个游戏`;
 
   if (!list.length) {
     gameGrid.innerHTML = `
@@ -574,13 +794,8 @@ function renderCards() {
     .map((activity) => `
       <button class="game-card subject-${activity.subject}" type="button" data-activity="${activity.id}">
         <span class="game-thumb">${cardArt(activity)}</span>
-        <span class="game-subject">${subjectLabel(activity.subject)}</span>
-        <h3>${activity.title}</h3>
-        <p>${activity.description}</p>
-        <span class="game-meta">
-          <span>${gradeLabel(activity.grade)}</span>
-          <span>${activity.skill}</span>
-        </span>
+        <strong>${activity.title}</strong>
+        <small>${subjectLabel(activity.subject)} · ${activity.skill}</small>
       </button>
     `)
     .join("");
@@ -593,13 +808,21 @@ function renderCards() {
 }
 
 function renderDaily() {
-  const picks = ["math-bubble", "pinyin-train", "cvc-builder"].map(getActivity);
+  const picks = [
+    "alphabet-order",
+    "math-bubble",
+    "fraction-bars",
+    "hundred-chart",
+    "rhythm-piano",
+    "shape-memory",
+    "free-draw",
+    "class-timer",
+  ].map(getActivity);
   dailyList.innerHTML = picks
     .map((activity) => `
       <button class="daily-card subject-${activity.subject}" type="button" data-daily="${activity.id}">
-        <span>${subjectLabel(activity.subject)}</span>
+        <span class="game-thumb">${cardArt(activity)}</span>
         <strong>${activity.title}</strong>
-        <small>${activity.skill}</small>
       </button>
     `)
     .join("");
@@ -668,6 +891,7 @@ function renderActivity() {
     builder: renderBuilder,
     timer: renderTimer,
     spinner: renderSpinner,
+    piano: renderPiano,
     picker: renderPicker,
     scoreboard: renderScoreboard,
     whiteboard: renderWhiteboard,
@@ -1052,6 +1276,51 @@ function bindSpinner(activity) {
   });
 }
 
+function renderPiano() {
+  const notes = [
+    ["do", 261.63],
+    ["re", 293.66],
+    ["mi", 329.63],
+    ["fa", 349.23],
+    ["sol", 392],
+    ["la", 440],
+    ["si", 493.88],
+  ];
+  return `
+    <div class="piano-tool" aria-label="小钢琴">
+      ${notes.map(([label, tone]) => `<button type="button" data-note="${tone}">${label}</button>`).join("")}
+    </div>
+    <div class="tool-actions">
+      <strong id="activityStatus">按一个琴键</strong>
+      <button type="button" data-next>重置</button>
+    </div>
+  `;
+}
+
+function bindPiano(activity) {
+  activityPanel.querySelectorAll("[data-note]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.sound) return;
+      const AudioEngine = window.AudioContext || window.webkitAudioContext;
+      if (!AudioEngine) return;
+      const audio = new AudioEngine();
+      const oscillator = audio.createOscillator();
+      const gain = audio.createGain();
+      oscillator.frequency.value = Number(button.dataset.note);
+      oscillator.type = "triangle";
+      gain.gain.setValueAtTime(0.001, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.2, audio.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.45);
+      oscillator.connect(gain);
+      gain.connect(audio.destination);
+      oscillator.start();
+      oscillator.stop(audio.currentTime + 0.5);
+      runtime.score[activity.id] = (runtime.score[activity.id] || 0) + 1;
+      activityPanel.querySelector("#activityStatus").textContent = button.textContent;
+    });
+  });
+}
+
 function renderPicker() {
   return `
     <textarea class="picker-input" id="pickerInput" rows="6">小明
@@ -1185,6 +1454,7 @@ function bindActivity(activity) {
     builder: bindBuilder,
     timer: bindTimer,
     spinner: bindSpinner,
+    piano: bindPiano,
     picker: bindPicker,
     scoreboard: bindScoreboard,
     whiteboard: bindWhiteboard,
